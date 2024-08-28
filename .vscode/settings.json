@@ -1,0 +1,72 @@
+{
+  // Enable auto-save
+  "files.autoSave": "onFocusChange",
+
+  // Enable formatting on save
+  "editor.formatOnSave": true,
+
+  // Prettier as the default formatter
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Ensure that Prettier formats PHP as well as other languages
+  "prettier.requireConfig": true,
+
+  // PHP Intelephense settings
+  "intelephense.files.maxSize": 1000000,
+  "intelephense.format.enable": true,
+  "intelephense.environment.documentRoot": "${workspaceFolder}",
+  "intelephense.diagnostics.undefinedTypes": true,
+  "intelephense.diagnostics.undefinedFunctions": true,
+  "intelephense.diagnostics.undefinedConstants": true,
+  "intelephense.diagnostics.undefinedVariables": true,
+  "intelephense.diagnostics.undefinedMethods": true,
+  "intelephense.diagnostics.deprecated": true,
+  "intelephense.diagnostics.missingProperties": true,
+  "intelephense.diagnostics.typeErrors": true,
+  "intelephense.diagnostics.parameterNames": true,
+
+  // PHP executable path (adjust this path based on your environment)
+  "php.executablePath": "/usr/local/bin/php", // or "C:/xampp/php/php.exe" on Windows
+
+  // Prettier configuration
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
+  "prettier.semi": true,
+  "prettier.tabWidth": 4,
+  "prettier.useTabs": false,
+  "prettier.printWidth": 80,
+
+  // Format PHP files with Intelephense
+  "[php]": {
+    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+  },
+
+  // Format other languages with Prettier
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // Enable linting and error checking
+  "php.validate.enable": true,
+
+  // Exclude certain files/folders from being formatted or linted
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/vendor": true,
+    "**/.git": true
+  },
+
+  // Optional: Set the default formatter globally for all files
+  "[*]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
