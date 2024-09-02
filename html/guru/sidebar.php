@@ -62,7 +62,7 @@
   <li class="menu-header small text-uppercase"><span class="menu-header-text">Aplikasi SMOM</span></li>
   <ul class="menu-inner py-1">
     <!-- Dashboard -->
-    <li class="menu-item active">
+    <li class="menu-item">
       <a href="../guru/" class="menu-link">
         <i class="menu-icon tf-icons bx bx-home-circle"></i>
         <div data-i18n="Analytics">Dashboard Guru</div>

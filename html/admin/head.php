@@ -21,6 +21,26 @@ if (empty($_SESSION['name_user'])) {
     </script>';
     exit();
 }
+
+if (!($_SESSION['role_id'] == 1) || empty($_SESSION['role_id'])) {
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+    echo '<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                title: "Warning!",
+                text: "Anda tidak memiliki hak akses untuk ini",
+                icon: "info",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Ok"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "../login/login.php;
+                }
+            });
+        });
+    </script>';
+    exit();
+}
 ?>
 
 

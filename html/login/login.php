@@ -1,17 +1,66 @@
 <!DOCTYPE html>
 
-<!-- =========================================================
-* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
-==============================================================
+<?php
+session_start();
 
-* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
-* Created by: ThemeSelection
-* License: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright ThemeSelection (https://themeselection.com)
+if ($_SESSION['role_id'] == 1) {
+  echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+  echo '<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                title: "Notice",
+                text: "Melanjutkan ke Dashboard",
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Ok"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "../admin/index.php";
+                }
+            });
+        });
+    </script>';
+}
 
-=========================================================
- -->
-<!-- beautify ignore:start -->
+if ($_SESSION['role_id'] == 2) {
+  echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+  echo '<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                title: "Notice",
+                text: "Melanjutkan ke Dashboard",
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Ok"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "../guru/index.php";
+                }
+            });
+        });
+    </script>';
+}
+
+if ($_SESSION['role_id'] == 3) {
+  echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+  echo '<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                title: "Notice",
+                text: "Melanjutkan ke Dashboard",
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Ok"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "../siswa/index.php";
+                }
+            });
+        });
+    </script>';
+}
+
+?>
 <html
   lang="en"
   class="light-style customizer-hide"
@@ -26,7 +75,7 @@
     name="viewport"
     content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>Login Basic - Pages | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+  <title>Login SMOM</title>
 
   <meta name="description" content="" />
 
@@ -123,11 +172,11 @@
                     </g>
                   </svg>
                 </span>
-                <span class="app-brand-text demo text-body fw-bolder">Sneat</span>
+                <span class="app-brand-text demo text-body fw-bolder">SMOM APPS</span>
               </a>
             </div>
             <!-- /Logo -->
-            <h4 class="mb-2">Welcome to Sneat! 👋</h4>
+            <h4 class="mb-2">Welcome to SMOM 👋</h4>
             <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
             <form class="mb-3" action="../../controller/auth/login.php" method="POST">

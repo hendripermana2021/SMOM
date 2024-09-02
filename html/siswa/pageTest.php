@@ -3,12 +3,17 @@
 <?php
 session_start();
 $grade = $_SESSION['grade_class'];
+$user_id = $_SESSION['user_id'];
 $page = "Page Test";
 require 'view.php';
 require '../../controller/modul.php';
-$query = tampildata("SELECT * from tbl_tests where for_class='$grade'");
+$query = tampildata("SELECT * from tbl_tests where for_class='$grade' order by createdAt DESC");
 $data = mysqli_query($koneksi, "SELECT * from tbl_tests where for_class='$grade'");
+$testSelesai = mysqli_query($koneksi, "SELECT * from tbl_tests JOIN tbl_test_answer_score ON tbl_tests.id = tbl_test_answer_score.id_test where status_test=0 and id_student=$user_id");
+$testBelumSelesai = mysqli_query($koneksi, "SELECT * from tbl_tests JOIN tbl_test_answer_score ON tbl_tests.id = tbl_test_answer_score.id_test where status_test=1 and id_student=$user_id");
 $totaldata = mysqli_num_rows($data);
+$totalSelesai = mysqli_num_rows($testSelesai);
+$totalBelumSelesai = mysqli_num_rows($testBelumSelesai);
 ?>
 <html
   lang="en"
@@ -35,7 +40,7 @@ $totaldata = mysqli_num_rows($data);
       <div class="layout-page">
         <!-- Navbar -->
         <?php
-        require './navbar.php';
+        require 'navbar.php';
         ?>
         <!-- / Navbar -->
 
@@ -74,8 +79,8 @@ $totaldata = mysqli_num_rows($data);
                           </div>
                         </div>
                         <span class="fw-semibold d-block mb-1">Soal Belum Selesai</span>
-                        <h3 class="card-title mb-2">$12,628</h3>
-                        <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small>
+                        <h3 class="card-title mb-2"><?= $totalBelumSelesai ?></h3>
+                        <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> Test</small>
                       </div>
                     </div>
                   </div>
@@ -106,8 +111,8 @@ $totaldata = mysqli_num_rows($data);
                           </div>
                         </div>
                         <span class="fw-semibold d-block mb-1">Soal Selesai</span>
-                        <h3 class="card-title text-nowrap mb-1">$4,679</h3>
-                        <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.42%</small>
+                        <h3 class="card-title text-nowrap mb-1"><?= $totalSelesai ?></h3>
+                        <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> Test</small>
                       </div>
                     </div>
                   </div>
@@ -121,8 +126,20 @@ $totaldata = mysqli_num_rows($data);
                   <div class="col-lg-12 col-md-6">
                     <div class="row mb-2">
                       <?php
-                      $index = 1; // Initialize the index variable
-                      foreach ($query as $row) : ?>
+                      // Retrieve data about unfinished tests
+                      $checkTestBelumSelesai = tampildata("SELECT tbl_test_answer_score.id as id_answer, tbl_test_answer_score.status_test as status, tbl_test_answer_score.id_student as id_student, tbl_test_answer_score.id_test as id_test FROM tbl_tests JOIN tbl_test_answer_score ON tbl_tests.id = tbl_test_answer_score.id_test WHERE status_test = 0 AND id_student = $user_id ORDER BY createdAt DESC");
+                      $testIds = array_column($checkTestBelumSelesai, 'id_test');
+                      $i = 0;
+
+                      foreach ($query as $row) :
+                        $testIdFromRow = $row['id'];
+
+                        if (in_array($testIdFromRow, $testIds)) {
+                          $buttonStart = '<span class="btn btn-success">Selesai</span>';
+                        } else {
+                          $buttonStart = '<a href="confirmTest?id=' . $row['id'] . '" class="btn btn-outline-primary">Start Test</a>';
+                        }
+                      ?>
                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 mb-3">
                           <div class="card h-100">
                             <div class="card-body">
@@ -130,11 +147,12 @@ $totaldata = mysqli_num_rows($data);
                               <p class="card-text">
                                 <?= $row['description'] ?>
                               </p>
-                              <a href="confirmTest?id=<?= $row['id'] ?>" class=" btn btn-outline-primary">Baca Materi</a>
+                              <?= $buttonStart ?>
                             </div>
                           </div>
                         </div>
-                      <?php endforeach; ?>
+                      <?php $i++;
+                      endforeach; ?>
                     </div>
                   </div>
                 </div>
@@ -161,12 +179,6 @@ $totaldata = mysqli_num_rows($data);
   </div>
   <!-- / Layout wrapper -->
 
-  <div class="buy-now">
-    <a
-      href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/"
-      target="_blank"
-      class="btn btn-danger btn-buy-now">Upgrade to Pro</a>
-  </div>
 
   <!-- Core JS -->
   <!-- build:js assets/vendor/js/core.js -->

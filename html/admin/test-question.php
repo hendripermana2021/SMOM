@@ -38,27 +38,34 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
                 <div class="col-6">
                   <h3><?= $page ?></h3>
                 </div>
-                <div class="col-6 ps-5">
-                  <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index"> <i data-feather="home"></i></a></li>
-                    <li class="breadcrumb-item">Admin</li>
-                    <li class="breadcrumb-item"><?= $page ?></li>
-                    <li class="breadcrumb-item active">Question</li>
-                  </ol>
-                </div>
               </div>
             </div>
             <div class="row">
               <div class="card" style="padding:20px">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="index"> <i data-feather="home"></i></a></li>
+                      <li class="breadcrumb-item">Admin</li>
+                      <li class="breadcrumb-item"><?= $page ?></li>
+                      <li class="breadcrumb-item active">Question</li>
+                    </ol>
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    <div class="text-end mb-4">
+                      <button
+                        type="button"
+                        class="btn btn-primary pb-2"
+                        data-bs-toggle="modal"
+                        data-bs-target="#add">
+                        Tambah Question
+                      </button>
+                    </div>
+                  </div>
+                </div>
                 <h5 class="card-header p-0 pb-3">Table Question</h5>
                 <div class="table-responsive text-nowrap">
-                  <button
-                    type="button"
-                    class="btn btn-primary pb-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#add">
-                    Tambah Question
-                  </button>
+
                   <table class="table table-hover" id="basic-1">
                     <thead>
                       <tr>

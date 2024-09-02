@@ -2,15 +2,16 @@
 
 <?php
 session_start();
-$id_test = $_GET['id'];
-$id_student = $_SESSION['user_id'];
+$id_test = $_GET['id_test'];
+$benar = $_GET['benar'];
+$salah = $_GET['salah'];
+$score = $_GET['score'];
+$id_student = $_GET['id_student'];
 
 require './view.php';
-require '../../controller/siswa/confirm-test.php';
 
-$query = tampildata("SELECT * FROM tbl_tests WHERE id = $id_test");
-$data = mysqli_query($koneksi, "SELECT * FROM tbl_tests WHERE id = $id_test");
-$totaldata = mysqli_num_rows($data);
+$query = tampildata("SELECT * FROM tbl_test_answer_score WHERE id_test = $id_test and id_student=$id_student");
+
 ?>
 
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template-free">
@@ -33,21 +34,14 @@ $totaldata = mysqli_num_rows($data);
             <!-- Left Column for displaying questions -->
             <div class="col-4" style="margin: auto;">
               <div class="card text-center">
-                <form action="" method="post">
-                  <input type="hidden" name="id_test" value="<?= $id_test ?>">
-                  <input type="hidden" name="id_student" value="<?= $id_student ?>">
-                  <input type="hidden" name="control" value="add">
-                  <?php foreach ($query as $row) : ?>
-                    <div class="card-header">Confirmation Form for Doing Test </div>
-                    <div class="card-body">
-                      <h5 class="card-title"><?= htmlspecialchars($row['title']) ?></h5>
-                      <p class="card-text"><?= htmlspecialchars($row['description']) ?></p>
-                      <p class="card-text">Jumlah Skor Benar: <?= htmlspecialchars($row['totalscore']) ?></p>
-                      <button class="btn btn-primary" type="submit" name="confirm">Start Test</button>
-                    </div>
-                    <div class="card-footer text-muted">Don't click start if you're not ready!</div>
-                  <?php endforeach; ?>
-                </form>
+                <div class="card-header">Result Test </div>
+                <div class="card-body">
+                  <h5 class="card-title">Hasil Test</h5>
+                  <p class="card-text">Jumlah Skor Benar :<?= $benar ?></p>
+                  <p class="card-text">Jumlah Skor Salah : <?= $salah ?></p>
+                  <p class="card-text">Skor Hasil : <?= $score ?></p>
+                  <a class="btn btn-primary" href="../../html/siswa/index.php">SELESAI</a>
+                </div>
               </div>
             </div>
           </div>

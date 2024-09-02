@@ -1,5 +1,5 @@
 <?php
-require '../../db/connect.php';
+require '../db/connect.php';
 
 // Check connection
 if ($koneksi->connect_error) {

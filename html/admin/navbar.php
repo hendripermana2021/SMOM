@@ -2,6 +2,13 @@
 $user_id = $_SESSION['user_id'];
 $role_id = $_SESSION['role_id'];
 $email = $_SESSION['email'];
+$name = $_SESSION['name_user'];
+
+if ($role_id == 1) {
+    $rolePath = 'Admin';
+} else if ($role_id == 2) {
+    $rolePath = 'Guru';
+}
 ?>
 
 <nav
@@ -39,8 +46,8 @@ $email = $_SESSION['email'];
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <span class="fw-semibold d-block">John Doe</span>
-                                    <small class="text-muted">Admin</small>
+                                    <span class="fw-semibold d-block"><?= $name ?></span>
+                                    <small class="text-muted"><?= $rolePath ?></small>
                                 </div>
                             </div>
                         </a>
@@ -49,7 +56,7 @@ $email = $_SESSION['email'];
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#profile">
                             <i class="bx bx-user me-2"></i>
                             <span class="align-middle">My Profile</span>
                         </a>
@@ -58,7 +65,7 @@ $email = $_SESSION['email'];
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="../../controller/auth/logout?id=<?= $user_id ?>&email=<?= $email ?>&role=<?= $role_id ?>">
+                        <a class="dropdown-item" href="../../controller/auth/logout.php?id=<?= $user_id ?>&email=<?= $email ?>&role=<?= $role_id ?>">
                             <i class="bx bx-power-off me-2"></i>
                             <span class="align-middle">Log Out</span>
                         </a>
@@ -68,3 +75,60 @@ $email = $_SESSION['email'];
         </ul>
     </div>
 </nav>
+
+<div class="modal modal-top fade" id="profile" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTopTitle">Profile</h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xxl">
+                        <form>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Name</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group input-group-merge">
+                                        <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="basic-icon-default-fullname"
+                                            placeholder="John Doe"
+                                            aria-label="John Doe"
+                                            aria-describedby="basic-icon-default-fullname2"
+                                            value="<?= $name ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-icon-default-email">Email</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group input-group-merge">
+                                        <span class="input-group-text"><i class="bx bx-envelope"></i></span>
+                                        <input
+                                            type="text"
+                                            id="basic-icon-default-email"
+                                            class="form-control"
+                                            placeholder="john.doe"
+                                            aria-label="john.doe"
+                                            aria-describedby="basic-icon-default-email2"
+                                            value="<?= $email ?>" />
+                                        <span id="basic-icon-default-email2" class="input-group-text">@example.com</span>
+                                    </div>
+                                    <div class="form-text">You can use letters, numbers & periods</div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

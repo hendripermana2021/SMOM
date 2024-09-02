@@ -65,7 +65,7 @@
     <li class="menu-item active">
       <a href="index.php" class="menu-link">
         <i class="menu-icon tf-icons bx bx-home-circle"></i>
-        <div data-i18n="Analytics">Dashboard Admin</div>
+        <div data-i18n="Dashboard Admin">Dashboard Admin</div>
       </a>
     </li>
 
@@ -78,28 +78,28 @@
 
       <ul class="menu-sub">
         <li class="menu-item">
-          <a href="tableuser.php" class="menu-link">
-            <div data-i18n="tableuser">User</div>
+          <a href="../admin/tableuser.php" class="menu-link">
+            <div data-i18n="User">User</div>
           </a>
         </li>
         <li class="menu-item">
           <a href="tablekelas.php" class="menu-link">
-            <div data-i18n="tablekelas">Kelas</div>
+            <div data-i18n="Kelas">Kelas</div>
           </a>
         </li>
         <li class="menu-item">
           <a href="tablemapel.php" class="menu-link">
-            <div data-i18n="mata pelajaran">Mata Pelajaran</div>
+            <div data-i18n="Mata Pelajaran">Mata Pelajaran</div>
           </a>
         </li>
         <li class="menu-item">
           <a href="tableguru.php" class="menu-link">
-            <div data-i18n="guru">Guru</div>
+            <div data-i18n="Guru">Guru</div>
           </a>
         </li>
         <li class="menu-item">
           <a href="tablesiswa.php" class="menu-link">
-            <div data-i18n="siswa">Siswa</div>
+            <div data-i18n="Siswa">Siswa</div>
           </a>
         </li>
       </ul>
@@ -107,18 +107,18 @@
     <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-layout"></i>
-        <div data-i18n="Layouts">Property Learning</div>
+        <div data-i18n="Property Learning">Property Learning</div>
       </a>
 
       <ul class="menu-sub">
         <li class="menu-item">
           <a href="tablemodul.php" class="menu-link">
-            <div data-i18n="Without navbar">Module</div>
+            <div data-i18n="Module">Module</div>
           </a>
         </li>
         <li class="menu-item">
           <a href="tabletest.php" class="menu-link">
-            <div data-i18n="Without navbar">Test</div>
+            <div data-i18n="Test">Test</div>
           </a>
         </li>
       </ul>

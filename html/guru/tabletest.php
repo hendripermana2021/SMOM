@@ -86,23 +86,23 @@ $totaldata = mysqli_num_rows($data);
                           <td><?= $row['totalscore'] ?></td>
                           <td><?= $row['for_class'] ?></td>
                           <td class="text-center col-2">
-                            <a href="test-question.php?id=<?= htmlspecialchars($row['id']) ?>">
-                              <button class="btn btn-primary">Add Question</button>
-                            </a>
-                            <button
-                              type="button"
-                              class="btn btn-warning"
-                              data-bs-toggle="modal"
-                              data-bs-target="#ubah<?= $row['id'] ?>">
-                              Edit
-                            </button>
-                            <button
-                              type="button"
-                              class="btn btn-danger"
-                              data-bs-toggle="modal"
-                              data-bs-target="#delete<?= $row['id'] ?>">
-                              Delete
-                            </button>
+                            <div class="btn-group">
+                              <button
+                                type="button"
+                                class="btn btn-outline-primary dropdown-toggle"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Actions
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="test-question.php?id=<?= htmlspecialchars($row['id']) ?>">Add Question</a></li>
+                                <li>
+                                  <a class="dropdown-item" href="viewResultTest.php?id_test=<?= htmlspecialchars($row['id']) ?>"> Lihat Hasil</a>
+                                </li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ubah<?= $row['id'] ?>">Edit Test</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete<?= $row['id'] ?>">Delete Test</a></li>
+                              </ul>
+                            </div>
                           </td>
                         </tr>
 
@@ -195,7 +195,6 @@ $totaldata = mysqli_num_rows($data);
                     </tbody>
                   </table>
                 </div>
-                </>
               </div>
             </div>
             <!-- / Content -->

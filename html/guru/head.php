@@ -2,7 +2,7 @@
 session_start(); // Start session
 
 // Redirect if the session is not set and show alert
-if (empty($_SESSION['name_user'] != 2)) {
+if (empty($_SESSION['name_user'])) {
     echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
     echo '<script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -21,11 +21,27 @@ if (empty($_SESSION['name_user'] != 2)) {
     </script>';
     exit();
 }
+
+if (!($_SESSION['role_id'] == 2) || empty($_SESSION['role_id'])) {
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+    echo '<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                title: "Warning!",
+                text: "Anda tidak memiliki hak akses untuk ini",
+                icon: "info",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Ok"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "../login/login.php";
+                }
+            });
+        });
+    </script>';
+    exit();
+}
 ?>
-
-
-
-
 
 <head>
     <meta charset="utf-8" />

@@ -1,17 +1,35 @@
-<!DOCTYPE html>
-
 <?php
-$id = $_GET['id'];
-$test = $_GET['test'];
-$id_student = $_SESSION['user_id'];
+require '../../controller/siswa/add-answer.php';
+require '../../db/connect.php'; // Include the database connection
 require './view.php';
-require '../../controller/siswa.php';
 
-$query = tampildata("SELECT * from tbl_questions where id_test = $id");
-$data = mysqli_query($koneksi, "SELECT * from tbl_questions where id_test = $id");
+$id = $_GET['id_test']; // Get the test ID from the URL
+$index = isset($_GET['index']) ? $_GET['index'] : 1; // Get the question index from the URL, default to 1 if not set
+$id_student = $_SESSION['user_id']; // Get the student ID from the session
+$id_question = $_GET['id_question'];
+
+// Fetch the questions for the test
+$query = tampildata("SELECT * FROM tbl_questions WHERE id_test = $id");
+$data = mysqli_query($koneksi, "SELECT * FROM tbl_questions WHERE id_test = $id");
 $totaldata = mysqli_num_rows($data);
+
+// Check if the index is within the range of available questions
+if ($index > $totaldata || $index < 1) {
+  header('Location: viewTest.php?id_test=' . $id . '&index=1');
+  exit;
+}
+
+//fetch answer
+$checkanswer = tampildata("SELECT * from tbl_answers where id_test=$id and id_user=$id_student");
+
+// Fetch the specific question based on the index
+$current_question = $query[$index - 1]; // Index starts from 0 in array
+$id_question = $current_question['id'];
+$question_text = htmlspecialchars($current_question['text_question']);
+$options = tampildata("SELECT id_question, label, text FROM tbl_options WHERE id_question = '$id_question'");
 ?>
 
+<!DOCTYPE html>
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template-free">
 
 <!-- Head -->
@@ -33,35 +51,42 @@ $totaldata = mysqli_num_rows($data);
               <div class="col-10">
                 <div class="card mb-3">
                   <div class="card-body">
-                    <h5 class="card-title"><?= htmlspecialchars($test) ?></h5>
+                    <h5 class="card-title">Question <?= $index ?></h5>
                     <form action="../../controller/siswa/add-answer.php" method="post">
                       <input type="hidden" name="test_id" value="<?= $id ?>">
-                      <input type="hidden" name="student_id" value="<?= $student_id ?>">
+                      <input type="hidden" name="student_id" value="<?= $id_student ?>">
+                      <input type="hidden" name="question_id" value="<?= $id_question ?>">
+                      <input type="hidden" name="index" value="<?= $index ?>">
 
-                      <?php foreach ($query as $row) : ?>
-                        <?php
-                        $id_question = $row['id'];
-                        $question = tampildata("SELECT * FROM tbl_questions WHERE id = '$id_question'")[0];
-                        $options = tampildata("SELECT label, text, id_question FROM tbl_options WHERE id_question = '$id_question'");
-                        ?>
+                      <p class="card-text mt-3"><?= $question_text ?></p>
+                      <div class="list-group">
+                        <?php foreach ($options as $option) : ?>
+                          <?php
+                          $question_id = $option['id_question'];
+                          $answer = tampildata("SELECT * FROM tbl_answers WHERE id_test=$id and id_user=$id_student and id_question=$question_id");
+                          ?>
 
-                        <p class="card-text mt-3"><?= htmlspecialchars($question['text_question']) ?></p>
-                        <div class="list-group">
-                          <?php foreach ($options as $option) : ?>
-                            <label class="list-group-item">
-                              <input class="form-check-input me-1" type="radio" name="answer[<?= $id_question ?>]" required value="<?= htmlspecialchars($option['label']) ?>" />
-                              <span><?= $option['label'] ?>. <?= htmlspecialchars($option['text']) ?></span>
-                            </label>
-                          <?php endforeach; ?>
-                        </div>
-                      <?php endforeach; ?>
+                          <label class="list-group-item card-option">
+                            <input class="form-check-input me-1" type="radio" name="answer" required value="<?= htmlspecialchars($option['label']) ?>" <?= $option['label'] == $answer[0]['selectoption'] ? 'checked' : '' ?> /><span><?= $option['label'] ?>. <?= htmlspecialchars($option['text']) ?></span>
+                          </label>
+                        <?php endforeach; ?>
+                      </div>
 
                       <div class="row mt-5">
                         <div class="col-lg-6 col-md-6 col-sm-3">
-                          <button type="button" class="btn btn-outline-warning">Back</button>
+                          <?php if ($index > 1) : ?>
+                            <button type="submit" name="back" class="btn btn-outline-warning">Back</button>
+                          <?php endif; ?>
                         </div>
+                        <?php
+                        if ($index == $totaldata) {
+                          $buttonSubmit = '<button type="submit" name="submittest" class="btn btn-primary">Submit</button>';
+                        } else {
+                          $buttonSubmit = '<button type="submit" name="next" class="btn btn-outline-primary">Next</button>';
+                        }
+                        ?>
                         <div class="col-lg-6 col-md-6 col-sm-3 text-end">
-                          <button type="submit" class="btn btn-outline-primary">Next</button>
+                          <?= $buttonSubmit ?>
                         </div>
                       </div>
                     </form>
@@ -76,8 +101,19 @@ $totaldata = mysqli_num_rows($data);
                     <h5 class="card-title">Daftar Soal</h5>
                     <div class="row">
                       <?php for ($i = 1; $i <= $totaldata; $i++) : ?>
-                        <div class="col-4 col-lg-12 mb-2">
-                          <a href="test_page.php?id=<?= $id ?>&question=<?= $i ?>" class="btn question-box" style="background-color: yellow; text-align: center; display: block;">
+
+                        <?php
+                        $color = '';
+                        if ($i == $index) {
+                          $color = 'yellow';
+                        } elseif (isset($checkanswer[$i]['selectoption']) == 1) {
+                          $color = 'blue';
+                        }
+                        ?>
+
+
+                        <div class="col-3 col-lg-6 mb-2">
+                          <a href="viewTest.php?id_test=<?= $id ?>&index=<?= $i ?>&id_student=<?= $id_student ?>&id_question=<?= $options[$i]['id_question'] ?>" class="btn question-box <?= $i == $index ? 'btn-primary' : '' ?>" style="background-color: <?= $color ?>; text-align: center; display: block;">
                             <?= $i ?>
                           </a>
                         </div>

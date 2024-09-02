@@ -22,7 +22,7 @@ if (empty($_SESSION['name_user'])) {
     exit();
 }
 
-if (!($_SESSION['role_id'] != 3)) {
+if (!($_SESSION['role_id'] == 3) || empty($_SESSION['role_id'])) {
     echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
     echo '<script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -34,7 +34,7 @@ if (!($_SESSION['role_id'] != 3)) {
                 confirmButtonText: "Ok"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = history.back();
+                    window.location.href = "../login/login.php";
                 }
             });
         });

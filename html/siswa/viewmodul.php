@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <?php
+session_start();
 $page = "Page Modul";
 require 'view.php';
 require '../../controller/modul.php';

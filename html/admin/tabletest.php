@@ -37,27 +37,33 @@ $totaldata = mysqli_num_rows($data);
                 <div class="col-6">
                   <h3><?= $page ?></h3>
                 </div>
-                <div class="col-6 ps-5">
-                  <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index"> <i data-feather="home"></i></a></li>
-                    <li class="breadcrumb-item">Admin</li>
-                    <li class="breadcrumb-item"><?= $page ?></li>
-                    <li class="breadcrumb-item active">Test</li>
-                  </ol>
-                </div>
               </div>
             </div>
             <div class="row">
               <div class="card" style="padding:20px">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="index"> <i data-feather="home"></i></a></li>
+                      <li class="breadcrumb-item">Admin</li>
+                      <li class="breadcrumb-item"><?= $page ?></li>
+                      <li class="breadcrumb-item active">Test</li>
+                    </ol>
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    <div class="text-end mb-4">
+                      <button
+                        type="button"
+                        class="btn btn-primary pb-2"
+                        data-bs-toggle="modal"
+                        data-bs-target="#add">
+                        Tambah Test
+                      </button>
+                    </div>
+                  </div>
+                </div>
                 <h5 class="card-header p-0 pb-3">Table Test</h5>
                 <div class="table-responsive text-nowrap">
-                  <button
-                    type="button"
-                    class="btn btn-primary pb-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#add">
-                    Tambah Test
-                  </button>
                   <table class="table table-hover" id="basic-1">
                     <thead>
                       <tr>
@@ -81,23 +87,23 @@ $totaldata = mysqli_num_rows($data);
                           <td><?= $row['totalscore'] ?></td>
                           <td><?= $row['for_class'] ?></td>
                           <td class="text-center col-2">
-                            <a href="test-question.php?id=<?= htmlspecialchars($row['id']) ?>">
-                              <button class="btn btn-primary">Add Question</button>
-                            </a>
-                            <button
-                              type="button"
-                              class="btn btn-warning"
-                              data-bs-toggle="modal"
-                              data-bs-target="#ubah<?= $row['id'] ?>">
-                              Edit
-                            </button>
-                            <button
-                              type="button"
-                              class="btn btn-danger"
-                              data-bs-toggle="modal"
-                              data-bs-target="#delete<?= $row['id'] ?>">
-                              Delete
-                            </button>
+                            <div class="btn-group">
+                              <button
+                                type="button"
+                                class="btn btn-outline-primary dropdown-toggle"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Actions
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="test-question.php?id=<?= htmlspecialchars($row['id']) ?>">Add Question</a></li>
+                                <li>
+                                  <il class="dropdown-item" href="viewmodul.php?id=<?= htmlspecialchars($row['id']) ?>"> Lihat Hasil</a>
+                                </li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ubah<?= $row['id'] ?>">Edit Test</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete<?= $row['id'] ?>">Delete Test</a></li>
+                              </ul>
+                            </div>
                           </td>
                         </tr>
 

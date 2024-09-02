@@ -22,7 +22,7 @@ $totaldata = mysqli_num_rows($data);
   <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
       <!-- Menu -->
-      <?php require 'sidebar.php'; ?>
+      <?php require 'sidebar.html'; ?>
       <!-- / Menu -->
 
       <!-- Layout container -->
