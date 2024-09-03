@@ -6,6 +6,7 @@ if (isset($_POST['prosesmodul'])) {
     $control = mysqli_real_escape_string($koneksi, $_POST['control']);
     $section = mysqli_real_escape_string($koneksi, $_POST['section']);
     $id_modul = mysqli_real_escape_string($koneksi, $_POST['id_modul']);
+    $position = mysqli_real_escape_string($koneksi, $_POST['position']);
     $content = mysqli_real_escape_string($koneksi, $_POST['content']); // Assuming you are using a hidden input for content
 
     $created_at = date('Y-m-d H:i:s');
@@ -13,8 +14,8 @@ if (isset($_POST['prosesmodul'])) {
 
     if ($control == "add") {
         // Insert query
-        $insert = mysqli_query($koneksi, "INSERT INTO tbl_modul_contents (id_modul, section, content, createdAt, updatedAt) 
-                                          VALUES ('$id_modul', '$section', '$content', '$created_at', '$updated_at')");
+        $insert = mysqli_query($koneksi, "INSERT INTO tbl_modul_contents (id_modul, section, content, createdAt, updatedAt, position) 
+                                          VALUES ('$id_modul', '$section', '$content', '$created_at', '$updated_at', '$position')");
 
         // Check if the insert was successful
         if ($insert) {

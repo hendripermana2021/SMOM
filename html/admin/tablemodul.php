@@ -274,16 +274,6 @@ $user_id = $_SESSION['user_id']
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label class="col-sm-2 col-form-label">Status</label>
-                  <div class="col-sm-10">
-                    <select class="form-select" name="status_post" required>
-                      <option hidden>Pilih Status</option>
-                      <option value="Active">Active</option>
-                      <option value="UnActive">UnActive</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="row mb-3">
                   <label class="col-sm-2 col-form-label">Class</label>
                   <div class="col-sm-10">
                     <div class="input-group input-group-merge">

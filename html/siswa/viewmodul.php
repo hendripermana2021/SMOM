@@ -80,8 +80,10 @@ $totaldata = mysqli_num_rows($data);
           <div class="container-xxl flex-grow-1 container-p-y">
             <div data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-offset="0" tabindex="0">
               <?php foreach ($query as $row) : ?>
+                <hr />
                 <h4 id="<?= $row['id'] ?>"></h4>
                 <div class="div"><?= $row['content'] ?></div>
+                <hr />
               <?php endforeach; ?>
             </div>
           </div>
@@ -104,7 +106,7 @@ $totaldata = mysqli_num_rows($data);
   <!-- / Layout wrapper -->
   <div class="buy-now" style="color: white;">
     <a
-      target="_self" href="tablemodul.php"
+      target="_self" href="viewModulSiswa.php"
       class="btn btn-danger btn-buy-now">Back to Menu</a>
   </div>
 

@@ -9,7 +9,7 @@ if ($koneksi->connect_error) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get form data
     $id_question = $_POST['id_question'];
-    $text_question = $_POST['text_question'];
+    $question = $_POST['question'];
     $correctoption = $_POST['answer'];
     $scoreanswer = $_POST['scoreanswer'];
     $id_test = $_POST['id_test'];
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ";
 
     $stmt_question = $koneksi->prepare($update_question_sql);
-    $stmt_question->bind_param('ssii', $text_question, $correctoption, $scoreanswer, $id_question);
+    $stmt_question->bind_param('ssii', $question, $correctoption, $scoreanswer, $id_question);
 
     if ($stmt_question->execute()) {
         // Retrieve the options from Quill editors

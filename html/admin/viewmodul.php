@@ -5,7 +5,7 @@ $page = "Page Modul";
 require 'view.php';
 require '../../controller/modul.php';
 $id = $_GET['id'];
-$query = tampildata("SELECT * from tbl_modul_contents where id_modul = $id");
+$query = tampildata("SELECT * from tbl_modul_contents where id_modul = $id order by position ASC");
 $data = mysqli_query($koneksi, "SELECT * from tbl_modul_contents where id_modul = $id");
 $totaldata = mysqli_num_rows($data);
 ?>
@@ -60,10 +60,10 @@ $totaldata = mysqli_num_rows($data);
         </div>
         <div class="menu-inner-shadow"></div>
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Aplikasi SMOM</span></li>
-        <?php foreach ($query as $row) : ?>
+        <?php foreach ($query as $rowside) : ?>
           <li class="menu-item" style="text-decoration:none">
-            <a href="#<?= $row['id'] ?>" class="menu-link menu-toggle">
-              <div data-i18n="<?= $row['id'] ?>"><?= $row['section'] ?></div>
+            <a href="#<?= $rowside['id'] ?>" class="menu-link menu-toggle">
+              <div data-i18n="<?= $rowside['id'] ?>"><?= $rowside['section'] ?></div>
             </a>
           </li>
         <?php endforeach; ?>

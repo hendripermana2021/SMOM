@@ -288,7 +288,7 @@ $totaldata = mysqli_num_rows($data);
                 <h5 class="modal-title">Tambah Content</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <form id="add-content" method="POST" action="../../controller/guru/addcontentmodul.php">
+              <form id="add-content" method="POST" action="../../controller/guru/addcontentquestion.php">
                 <input type="hidden" name="content" id="content">
                 <input type="hidden" name="control" value="add">
                 <input type="hidden" name="id_modul" value="<?= $id ?>">

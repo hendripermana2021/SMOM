@@ -140,7 +140,7 @@ ON
                                       <select class="form-select" name="walkes" required>
                                         <option selected hidden>Pilih Wali Kelas</option>
                                         <?php
-                                        $walikelas = tampildata("SELECT * FROM tbl_gurus");
+                                        $walikelas = tampildata("SELECT * FROM tbl_gurus where role_id=2");
                                         foreach ($walikelas as $option) : ?>
                                           <option value="<?= $option['id'] ?>" <?= $row['id_walkes'] == $option['id'] ? 'selected' : '' ?>>
                                             <?= $option['name_guru'] ?>
@@ -238,7 +238,7 @@ ON
                   <select class="form-select" name="walkes" required>
                     <option selected hidden>Pilih Wali Kelas</option>
                     <?php
-                    $walikelas = tampildata("SELECT * FROM tbl_gurus");
+                    $walikelas = tampildata("SELECT * FROM tbl_gurus where role_id=2");
                     foreach ($walikelas as $option) : ?>
                       <option value="<?= $option['id'] ?>">
                         <?= $option['name_guru'] ?>

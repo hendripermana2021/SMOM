@@ -3,7 +3,7 @@
 $page = "Page Modul";
 require 'view.php';
 $id = $_GET['id'];
-$query = tampildata("SELECT * from tbl_modul_contents where id_modul=$id");
+$query = tampildata("SELECT * from tbl_modul_contents where id_modul=$id order by position ASC");
 $data = mysqli_query($koneksi, "SELECT * from tbl_modul_contents where id_modul=$id");
 $totaldata = mysqli_num_rows($data);
 ?>
@@ -46,31 +46,40 @@ $totaldata = mysqli_num_rows($data);
                   <h3><?= $page ?></h3>
                 </div>
                 <div class="col-6 ps-5">
-                  <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index"> <i data-feather="home"></i></a></li>
-                    <li class="breadcrumb-item">Admin</li>
-                    <li class="breadcrumb-item"><?= $page ?></li>
-                    <li class="breadcrumb-item active">Modul Content</li>
-                  </ol>
+
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="card" style="padding:20px">
-                <h5 class="card-header p-0 pb-3">Table Modul</h5>
+                <div class="row">
+                  <div class="col-lg-6 col-md-6">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="index"> <i data-feather="home"></i></a></li>
+                      <li class="breadcrumb-item">Admin</li>
+                      <li class="breadcrumb-item"><?= $page ?></li>
+                      <li class="breadcrumb-item active">Modul Content</li>
+                    </ol>
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    <div class="text-end mb-4">
+                      <button
+                        type="button"
+                        class="btn btn-primary pb-2"
+                        data-bs-toggle="modal"
+                        data-bs-target="#add">
+                        Tambah Content
+                      </button>
+                    </div>
+                  </div>
+                </div>
                 <div class="table-responsive text-nowrap">
-                  <button
-                    type="button"
-                    class="btn btn-primary pb-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#add">
-                    Tambah Content
-                  </button>
                   <table class="table table-hover" id="basic-1">
                     <thead>
                       <tr>
                         <th>No</th>
                         <th>Section</th>
+                        <th>Position</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
@@ -82,6 +91,7 @@ $totaldata = mysqli_num_rows($data);
                         <tr>
                           <td><?= $index++ ?></td> <!-- Output the index and increment it -->
                           <td><?= $row['section'] ?></td>
+                          <td><?= $row['position'] ?></td>
                           <td class="text-center col-2">
                             <button
                               type="button"
@@ -134,6 +144,8 @@ $totaldata = mysqli_num_rows($data);
                           </div>
                         </div>
 
+
+
                         <!-- Update Modal -->
                         <div class="modal fade" id="updateModal<?= $row['id'] ?>" tabindex="-1" aria-hidden="true">
                           <div class="modal-dialog modal-fullscreen" role="document">
@@ -155,6 +167,19 @@ $totaldata = mysqli_num_rows($data);
                                         <span class="input-group-text"><i class="bx bx-user"></i></span>
                                         <input type="text" class="form-control" name="section" id="update-section<?= $row['id'] ?>" value="<?= $row['section'] ?>" required />
                                       </div>
+                                    </div>
+                                  </div>
+                                  <div class="row mb-3">
+                                    <label class="col-sm-1 col-form-label">Position</label>
+                                    <div class="col-sm-11">
+                                      <select name="position" id="position" class="form-select" required>
+                                        <script>
+                                          for (let i = 1; i <= 30; i++) {
+                                            const selected = (<?= $row['position'] ?> == i) ? 'selected' : '';
+                                            document.write(`<option value="${i}" ${selected}>${i}</option>`);
+                                          }
+                                        </script>
+                                      </select>
                                     </div>
                                   </div>
                                   <div class="row mb-3">
@@ -294,6 +319,19 @@ $totaldata = mysqli_num_rows($data);
                         <span class="input-group-text"><i class="bx bx-user"></i></span>
                         <input type="text" class="form-control" name="section" required />
                       </div>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label class="col-sm-1 col-form-label">Position</label>
+                    <div class="col-sm-2">
+                      <select name="position" id="position" class="form-select" required>
+                        <option value="" selected hidden>-- Pilih --</option>
+                        <script>
+                          for (let i = 1; i <= 30; i++) {
+                            document.write(`<option value="${i}">${i}</option>`);
+                          }
+                        </script>
+                      </select>
                     </div>
                   </div>
                   <div class="row mb-3">

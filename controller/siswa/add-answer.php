@@ -109,10 +109,32 @@ if (isset($_POST['submittest'])) {
     $test_id = $_POST['test_id'];
     $student_id = $_POST['student_id'];
     $question_id = $_POST['question_id'];
+    $answer = $_POST['answer'];
+
+    $query_check = "SELECT * FROM tbl_answers WHERE id_test = ? AND id_question = ? AND id_user = ?";
+    $stmt_check = $koneksi->prepare($query_check);
+    $stmt_check->bind_param('iii', $test_id, $question_id, $student_id);
+    $stmt_check->execute();
+    $result_check = $stmt_check->get_result();
+
+    if ($result_check->num_rows > 0) {
+        // Answer exists, so update it
+        $query_update = "UPDATE tbl_answers SET selectoption = ? WHERE id_test = ? AND id_question = ? AND id_user = ?";
+        $stmt_update = $koneksi->prepare($query_update);
+        $stmt_update->bind_param('siii', $answer, $test_id, $question_id, $student_id);
+        $stmt_update->execute();
+    } else {
+        // Answer does not exist, insert a new one
+        $query_insert = "INSERT INTO tbl_answers (id_test, id_question, id_user, selectoption) 
+                         VALUES (?, ?, ?, ?)";
+        $stmt_insert = $koneksi->prepare($query_insert);
+        $stmt_insert->bind_param('iiis', $test_id, $question_id, $student_id, $answer);
+        $stmt_insert->execute();
+    }
 
     // Fetch questions and answers from the database
     $question = mysqli_query($koneksi, "SELECT * FROM tbl_questions WHERE id_test=$test_id");
-    $answer = mysqli_query($koneksi, "SELECT * FROM tbl_answers WHERE id_test=$test_id AND id_user=$student_id");
+    $answerQuery = mysqli_query($koneksi, "SELECT * FROM tbl_answers WHERE id_test=$test_id AND id_user=$student_id");
 
     // Get the total number of questions
     $totaldata = mysqli_num_rows($question);
@@ -124,7 +146,7 @@ if (isset($_POST['submittest'])) {
     for ($i = 0; $i < $totaldata; $i++) {
         // Fetch the current question and answer
         $currentQuestion = mysqli_fetch_assoc($question);
-        $currentAnswer = mysqli_fetch_assoc($answer);
+        $currentAnswer = mysqli_fetch_assoc($answerQuery);
 
         if ($currentQuestion['correctoption'] == $currentAnswer['selectoption']) {
             $correctAnswer++;

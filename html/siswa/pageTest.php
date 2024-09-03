@@ -32,7 +32,7 @@ $totalBelumSelesai = mysqli_num_rows($testBelumSelesai);
       <!-- Menu -->
 
       <?php
-      require './sidebar.php';
+      require 'sidebar.php';
       ?>
       <!-- / Menu -->
 

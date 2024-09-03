@@ -8,12 +8,12 @@ if ($koneksi->connect_error) {
 
 if ($_SERVER['REQUEST_METHOD']) {
     // Insert main question data
-    $text_question = $_POST['text_question'];
+    $question = $_POST['question'];
     $answer = $_POST['answer'];
     $scoreanswer = $_POST['scoreanswer'];
     $id_test = $_POST['id_test'];
 
-    $sql = "INSERT INTO tbl_questions (text_question, correctoption, scoreanswer, id_test) VALUES ('$text_question', '$answer', '$scoreanswer', '$id_test')";
+    $sql = "INSERT INTO tbl_questions (text_question, correctoption, scoreanswer, id_test) VALUES ('$question', '$answer', '$scoreanswer', '$id_test')";
 
     if ($koneksi->query($sql) === TRUE) {
         $id_question_created = $koneksi->insert_id; // Get the last inserted question ID

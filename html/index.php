@@ -70,7 +70,7 @@
       <!-- Menu -->
 
 
-      <?php require 'sidebar.html' ?>
+      <?php require 'sidebar.php' ?>
       <!-- / Menu -->
 
       <!-- Layout container -->

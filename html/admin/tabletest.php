@@ -97,9 +97,7 @@ $totaldata = mysqli_num_rows($data);
                               </button>
                               <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="test-question.php?id=<?= htmlspecialchars($row['id']) ?>">Add Question</a></li>
-                                <li>
-                                  <il class="dropdown-item" href="viewmodul.php?id=<?= htmlspecialchars($row['id']) ?>"> Lihat Hasil</a>
-                                </li>
+                                <li><a class="dropdown-item" href="viewResultTest.php?id_test=<?= htmlspecialchars($row['id']) ?>"> Lihat Hasil</a></li>
                                 <li><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ubah<?= $row['id'] ?>">Edit Test</a></li>
                                 <li><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete<?= $row['id'] ?>">Delete Test</a></li>
                               </ul>
@@ -142,7 +140,7 @@ $totaldata = mysqli_num_rows($data);
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
                                         <span class="input-group-text"><i class="bx bx-calculator"></i></span>
-                                        <input type="number" class="form-control" name="totalscore" value="<?= $row['totalscore'] ?>" required />
+                                        <input type="number" class="form-control" name="totalscore" value="<?= $row['totalscore'] ?>" min="0" max="100" maxlength="3" required />
                                       </div>
                                     </div>
                                   </div>
@@ -248,7 +246,7 @@ $totaldata = mysqli_num_rows($data);
                   <div class="col-sm-10">
                     <div class="input-group input-group-merge">
                       <span class="input-group-text"><i class="bx bx-calculator"></i></span>
-                      <input type="number" class="form-control" name="totalscore" required />
+                      <input type="number" class="form-control" name="totalscore" required min="0" max="100" maxlength="3" />
                     </div>
                   </div>
                 </div>
@@ -321,7 +319,7 @@ $totaldata = mysqli_num_rows($data);
                   <div class="col-sm-10">
                     <div class="input-group input-group-merge">
                       <span class="input-group-text"><i class="bx bx-user"></i></span>
-                      <input type="number" class="form-control" name="scoreanswer" required />
+                      <input type="number" class="form-control" name="scoreanswer" min="0" max="99" maxlength="2" required />
                     </div>
                   </div>
                 </div>

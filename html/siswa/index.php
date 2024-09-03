@@ -31,7 +31,7 @@ $totalTestBelumSelesai = mysqli_num_rows($testBelumSelesai);
       <!-- Menu -->
 
       <?php
-      require 'sidebar.html';
+      require 'sidebar.php';
       ?>
       <!-- / Menu -->
 
@@ -56,7 +56,7 @@ $totalTestBelumSelesai = mysqli_num_rows($testBelumSelesai);
                       <div class="card-body">
                         <h5 class="card-title text-primary">You have Moduls from your teacher</h5>
                         <h3 class="card-title mb-4"><?= $totalModal ?> <span class="badge bg-label-primary" style="font-size:small;">Module</span></h3>
-                        <a href="javascript:;" class="btn btn-sm btn-outline-primary">Read Now</a>
+                        <a href="viewModulSiswa.php" class="btn btn-sm btn-outline-primary">Read Now</a>
                       </div>
                     </div>
                   </div>

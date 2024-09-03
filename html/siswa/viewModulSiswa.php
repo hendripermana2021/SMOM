@@ -14,6 +14,7 @@ $totaldata = mysqli_num_rows($data);
 
 <!-- Head -->
 <?php require 'head.php'; ?>
+
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
 <!-- END HEAD -->
 
@@ -22,7 +23,7 @@ $totaldata = mysqli_num_rows($data);
   <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
       <!-- Menu -->
-      <?php require 'sidebar.html'; ?>
+      <?php require 'sidebar.php'; ?>
       <!-- / Menu -->
 
       <!-- Layout container -->
@@ -57,9 +58,16 @@ $totaldata = mysqli_num_rows($data);
                             <div class="card-body">
                               <h5 class="card-title"><?= $row['title'] ?></h5>
                               <p class="card-text">
-                                <?= $row['subtitle'] ?>
+                                <?php
+                                // Limit subtitle to 100 characters
+                                $subtitle = $row['subtitle'];
+                                if (strlen($subtitle) > 100) {
+                                  $subtitle = substr($subtitle, 0, 100) . '...';
+                                }
+                                echo htmlspecialchars($subtitle);
+                                ?>
                               </p>
-                              <a href="viewmodul.php?id=<?= htmlspecialchars($row['id']) ?>"" class=" btn btn-outline-primary">Baca Materi</a>
+                              <a href="viewmodul.php?id=<?= htmlspecialchars($row['id']) ?>" class="btn btn-outline-primary">Baca Materi</a>
                             </div>
                           </div>
                         </div>
