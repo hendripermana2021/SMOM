@@ -86,6 +86,24 @@ $options = tampildata("SELECT id_question, label, text FROM tbl_options WHERE id
   p {
     margin-bottom: 0;
   }
+
+
+
+  @media (max-width: 574px) {
+    .pilgan {
+      width: 23%;
+      margin-left: 2px;
+      text-align: center;
+    }
+
+    .btnback {
+      width: 50%;
+    }
+
+    .btnsubmit {
+      width: 50%;
+    }
+  }
 </style>
 
 <!-- END HEAD -->
@@ -100,18 +118,9 @@ $options = tampildata("SELECT id_question, label, text FROM tbl_options WHERE id
         <div class="content-wrapper">
           <!-- Content -->
           <div class="container-xxl flex-grow-1 container-p-y mt-5">
-            <div class="text-end mb-4">
-              <button
-                type="button"
-                class="btn btn-primary pb-2"
-                data-bs-toggle="modal"
-                data-bs-target="#add">
-                Tambah Test
-              </button>
-            </div>
             <div class="row">
               <!-- Left Column for displaying questions -->
-              <div class="col-10">
+              <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12">
                 <div class="card mb-3">
                   <div class="card-body" style="padding : 2rem 2rem;">
                     <h5 class="card-title">Question <?= $index ?></h5>
@@ -146,20 +155,41 @@ $options = tampildata("SELECT id_question, label, text FROM tbl_options WHERE id
 
 
                       <div class="row mt-5">
-                        <div class="col-lg-6 col-md-6 col-sm-3">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 btnback">
                           <?php if ($index > 1) : ?>
                             <button type="submit" name="back" class="btn btn-outline-warning">Back</button>
                           <?php endif; ?>
                         </div>
                         <?php
                         if ($index == $totaldata) {
-                          $buttonSubmit = '<button type="submit" name="submittest" class="btn btn-outline-primary">Submit</button>';
+                          $buttonSubmit = '<button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#add">Submit</button>';
                         } else {
                           $buttonSubmit = '<button type="submit" name="next" class="btn btn-outline-primary">Next</button>';
                         }
                         ?>
-                        <div class="col-lg-6 col-md-6 col-sm-3 text-end">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-end btnsubmit">
                           <?= $buttonSubmit ?>
+                        </div>
+                      </div>
+
+                      <div class="modal fade" id="add" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-md" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Konfirmasi Test</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <input type="hidden" name="control" value="add">
+                            <div class="modal-body">
+                              <div class="row">
+                                <label class="col-xl-12 col-lg-12 col-md-12 col-sm-6 col-form-label">Apakah anda sudah yakin dengan jawaban anda, klik <strong>Kirim Jawaban</strong> jika sudah selesai</label>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                              <button type="submit" name="submittest" class="btn btn-primary">Kirim Jawaban</button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </form>
@@ -168,28 +198,30 @@ $options = tampildata("SELECT id_question, label, text FROM tbl_options WHERE id
               </div>
 
               <!-- Right Column for displaying question boxes -->
-              <div class="col-2">
+              <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
                 <div class="card">
-                  <div class="card-body p-2">
+                  <div class="card-body p-3">
                     <h5 class="card-title">Daftar Soal</h5>
                     <div class="row">
-                      <?php for ($i = 1; $i <= $totaldata; $i++) : ?>
+                      <?php
+                      $i = 1;
+                      foreach ($query as $row) : ?>
                         <?php
-                        $color = '';
-                        if ($i == $index) {
-                          $color = 'yellow';
-                        } elseif (isset($checkanswer[$i]['selectoption']) == 1) {
-                          $color = 'blue';
-                        }
+                        $idQuestion = $row['id'];
+                        $answer = mysqli_query($koneksi, "SELECT * FROM tbl_answers WHERE id_test=$id and id_user=$id_student and id_question='$idQuestion'");
+                        $checkAnswer = mysqli_num_rows($answer);
+
                         ?>
-
-
-                        <div class="col-3 col-lg-6 mb-2">
-                          <a href="viewTest.php?id_test=<?= $id ?>&index=<?= $i ?>&id_student=<?= $id_student ?>&id_question=<?= $options[$i]['id_question'] ?>" class="btn question-box <?= $i == $index ? 'btn-primary' : '' ?>" style="background-color: <?= $color ?>; text-align: center; display: block;">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-2 col-xs-2 mb-2 pilgan">
+                          <a href="viewTest.php?id_test=<?= $id ?>&index=<?= $i ?>&id_student=<?= $id_student ?>&id_question=<?= $options[$i - 1]['id_question'] ?>"
+                            class="btn question-box <?= $i == $index ? 'btn-warning' : '' ?>"
+                            style="background-color: <?= $checkAnswer == 1 ? 'blue' : '' ?>; text-align: center; display: block;">
                             <?= $i ?>
                           </a>
                         </div>
-                      <?php endfor; ?>
+                      <?php $i++;
+                      endforeach;
+                      ?>
                     </div>
                   </div>
                 </div>
@@ -197,175 +229,16 @@ $options = tampildata("SELECT id_question, label, text FROM tbl_options WHERE id
             </div>
           </div>
 
-
-          <!-- / Content -->
-
-          <!-- Footer -->
-          <?php require './footer.php'; ?>
-          <!-- / Footer -->
-
           <div class="content-backdrop fade"></div>
         </div>
         <!-- Content wrapper -->
       </div>
       <!-- / Layout page -->
     </div>
-    <div class="modal fade" id="add" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Update Data Test</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <form method="POST" action=""> <!-- Ensure the action points to the PHP file handling the update -->
-            <input type="hidden" name="control" value="add">
-            <div class="modal-body">
-              <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">Judul Test</label>
-                <div class="col-sm-10">
-                  <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-user"></i></span>
-                    <input type="text" class="form-control" name="title" required />
-                  </div>
-                </div>
-              </div>
-              <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">Description</label>
-                <div class="col-sm-10">
-                  <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-info-circle"></i></span>
-                    <textarea class="form-control" name="description" required></textarea>
-                  </div>
-                </div>
-              </div>
-              <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">Total Score</label>
-                <div class="col-sm-10">
-                  <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-calculator"></i></span>
-                    <input type="number" class="form-control" name="totalscore" required min="0" max="100" maxlength="3" />
-                  </div>
-                </div>
-              </div>
-              <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">Class</label>
-                <div class="col-sm-10">
-                  <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-school"></i></span>
-                    <select class="form-select" name="tingkat" required>
-                      <option selected hidden>Pilih Tingkat</option>
-                      <option value="X">X</option>
-                      <option value="XI">XI</option>
-                      <option value="XII">XII</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" name="prosestest" class="btn btn-primary">Save changes</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+
   </div>
 
-  <!-- <form>
-    <div class="form-group row">
-      <div class="col-12">
-        <div class="card-deck">
-          <div id="elephant-card" class="card mb-4 active">
-            <div class="card-body" role="button">
-              <h5 class="card-title"><input id="elephant" type="radio" name="elepant" checked="">
-                <label for="elephant">Elephant</label>
-              </h5>
-              <p class="card-text">It is a long established fact that a reader will be
-                distracted by the readable content of a page when looking at its layout.</p>
-            </div>
-          </div>
-          <div id="lion-card" class="card mb-4 ">
-            <div class="card-body" role="button">
-              <h5 class="card-title"><input id="lion" type="radio" name="elepant"> <label
-                  for="lion">Lion</label></h5>
-              <p class="card-text">It is a long established fact that a reader will be
-                distracted by the readable content of a page when looking at its layout.</p>
-            </div>
-          </div>
-          <div id="zebra-card" class="card mb-4 ">
-            <div class="card-body" role="button">
-              <h5 class="card-title"><input id="zebra" type="radio" name="elepant"> <label
-                  for="zebra">Zebra</label></h5>
-              <p class="card-text">It is a long established fact that a reader will be
-                distracted by the readable content of a page when looking at its layout.</p>
-            </div>
-          </div>
-          <div class="w-100"></div>
-          <div id="giraffe-card" class="card mb-4 ">
-            <div class="card-body" role="button">
-              <h5 class="card-title"><input id="giraffe" type="radio" name="elepant"> <label
-                  for="giraffe">Giraffe</label></h5>
-              <p class="card-text">It is a long established fact that a reader will be
-                distracted by the readable content of a page when looking at its layout.</p>
-            </div>
-          </div>
-          <div id="hyena-card" class="card mb-4 ">
-            <div class="card-body" role="button">
-              <h5 class="card-title"><input id="hyena" type="radio" name="elepant"> <label
-                  for="hyena">Hyena</label></h5>
-              <p class="card-text">It is a long established fact that a reader will be
-                distracted by the readable content of a page when looking at its layout.</p>
-            </div>
-          </div>
-          <div id="meerkat-card" class="card mb-4 ">
-            <div class="card-body" role="button">
-              <h5 class="card-title"><input id="meerkat" type="radio" name="elepant"> <label
-                  for="meerkat">Meerkat</label></h5>
-              <p class="card-text">It is a long established fact that a reader will be
-                distracted by the readable content of a page when looking at its layout.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form> -->
 
-  <!-- / Layout wrapper -->
-  <!-- <script>
-    function unclickRadio() {
-      $("input:radio").prop("checked", false);
-    }
-
-    function clickRadio(inputElement) {
-      $("#" + inputElement).prop("checked", true);
-    }
-
-    function removeActive() {
-      $(".card").removeClass("active");
-    }
-
-    function makeActive(element) {
-      $("#" + element + "-card").addClass("active");
-    }
-
-    $(document).ready(function() {
-      $('input:radio').change(function() { //Clicking input radio
-        var radioClicked = $(this).attr('id');
-        unclickRadio();
-        removeActive();
-        clickRadio(radioClicked);
-        makeActive(radioClicked);
-      });
-      $(".card").click(function() { //Clicking the card
-        var inputElement = $(this).find('input[type=radio]').attr('id');
-        unclickRadio();
-        removeActive();
-        makeActive(inputElement);
-        clickRadio(inputElement);
-      });
-    });
-  </script> -->
 
   <!-- Core JS -->
 

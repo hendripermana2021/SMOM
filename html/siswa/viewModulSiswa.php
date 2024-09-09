@@ -45,7 +45,7 @@ $totaldata = mysqli_num_rows($data);
             </div>
             <div class="row">
               <div class="card" style="padding:20px">
-                <h5 class="card-header p-0 pb-3">Table Modul</h5>
+                <h5 class="card-header p-0 pb-3">Daftar Modul</h5>
                 <div class="table-responsive text-wrap">
                   <div class="col-lg-12 col-md-6">
                     <div class="row mb-2">

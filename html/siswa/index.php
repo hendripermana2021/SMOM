@@ -24,6 +24,21 @@ $totalTestBelumSelesai = mysqli_num_rows($testBelumSelesai);
 <?php require 'head.php'; ?>
 <!-- END HEAD -->
 
+<style>
+  @media (max-width: 575px) {
+    #display2-1 {
+      margin-top: 30px;
+    }
+
+    #display2 {
+      margin-top: 30px;
+    }
+
+
+
+  }
+</style>
+
 <body>
   <!-- Layout wrapper -->
   <div class="layout-wrapper layout-content-navbar">
@@ -49,10 +64,10 @@ $totalTestBelumSelesai = mysqli_num_rows($testBelumSelesai);
 
           <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
-              <div class="col-lg-3 col-md-4 order-0">
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 order-0" id="display1">
                 <div class="card">
                   <div class="d-flex align-items-end row">
-                    <div class="col-lg-12 col-md-6">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                       <div class="card-body">
                         <h5 class="card-title text-primary">You have Moduls from your teacher</h5>
                         <h3 class="card-title mb-4"><?= $totalModal ?> <span class="badge bg-label-primary" style="font-size:small;">Module</span></h3>
@@ -62,7 +77,7 @@ $totalTestBelumSelesai = mysqli_num_rows($testBelumSelesai);
                   </div>
                 </div>
               </div>
-              <div class="col-lg-9 col-md-4 order-0">
+              <div class="col-xl-9 col-lg-9 col-md-9 col-sm-3 order-0" id="display2">
                 <div class="card p-4">
                   <div class="card-title"><span class="badge bg-label-success" style="font-size:small;">Test Online</span></h3>
                   </div>
@@ -70,7 +85,7 @@ $totalTestBelumSelesai = mysqli_num_rows($testBelumSelesai);
                     <div class="col-lg-6 col-md-6">
                       <div class="card">
                         <div class="d-flex align-items-end row">
-                          <div class="col-lg-12 col-md-6">
+                          <div class="col-xl-12 col-lg-12 col-sm-12 col-md-12">
                             <div class="card-body">
                               <h5 class="card-title text-primary">Test Sudah Selesai</h5>
                               <h3 class="card-title mb-4"><?= $totalTestSelesai ?> <span class="badge bg-label-primary" style="font-size:small;">Test</span></h3>
@@ -80,15 +95,15 @@ $totalTestBelumSelesai = mysqli_num_rows($testBelumSelesai);
                       </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
-                      <div class="card">
+                      <div class="card" id="display2-1">
                         <div class="d-flex align-items-end row">
-                          <div class="col-lg-12 col-md-6">
+                          <div class="col-xl-12 col-lg-12 col-sm-12 col-md-12">
                             <div class="card-body">
                               <h5 class="card-title text-primary">Test Belum Selesai</h5>
                               <h3 class="card-title mb-4"><?= $totalTestBelumSelesai ?> <span class="badge bg-label-primary" style="font-size:small;">Test</span></h3>
                               <?php
                               if ($totalTestBelumSelesai > 0) {
-                                $buttonTest = ' <a href="javascript:;" class="btn btn-sm btn-outline-primary">Kerjakan</a>';
+                                $buttonTest = ' <a href="./pageTest.php" class="btn btn-sm btn-outline-primary">Kerjakan</a>';
                               } else {
                                 $buttonTest = '';
                               }

@@ -26,7 +26,9 @@ $totalSiswaUnActive = mysqli_num_rows($dataSiswaUnActive);
   data-assets-path="../../assets/"
   data-template="vertical-menu-template-free">
 
-<?php require 'head.php'; ?>
+<?php
+require './head.php';
+?>
 <!-- END HEAD -->
 
 <body>

@@ -29,9 +29,8 @@ $totaldata = mysqli_num_rows($data);
         <div class="content-wrapper">
           <!-- Content -->
           <div class="container-xxl flex-grow-1 container-p-y mt-5">
-            <?php echo $_SESSION['user_id'] ?>
             <!-- Left Column for displaying questions -->
-            <div class="col-4" style="margin: auto;">
+            <div class="col-xl-3 col-lg-5 col-md-5 col-sm-7" style="margin: auto;">
               <div class="card text-center">
                 <form action="" method="post">
                   <input type="hidden" name="id_test" value="<?= $id_test ?>">
@@ -51,11 +50,6 @@ $totaldata = mysqli_num_rows($data);
               </div>
             </div>
           </div>
-          <!-- / Content -->
-
-          <!-- Footer -->
-          <?php require 'footer.php'; ?>
-          <!-- / Footer -->
 
           <div class="content-backdrop fade"></div>
         </div>
