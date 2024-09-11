@@ -24,7 +24,7 @@ if ($data_user) {
       session_destroy();
 
       echo "<script>alert('Anda Telah Mengakhiri Sesi Aplikasi');
-      document.location='../../html/login/login.php'</script>";
+      document.location='../../login.php'</script>";
       exit(); // Stop further execution after session destruction
    }
    echo 'end1';
