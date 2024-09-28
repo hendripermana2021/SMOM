@@ -12,22 +12,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_modul = $_POST['id_modul'];
     $section = $_POST['section'];
     $content = $_POST['content'];
+    $position = $_POST['position'];
 
-    if (empty($content) || empty($id_modul) || empty($section) || empty($id_content)) {
-        echo 'Data Kosong';
+    // Check for empty fields   // Check for empty fields
+    if (empty($content) || empty($id_modul) || empty($section) || empty($id_content) || empty($position)) {
+        echo '<script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Data tidak boleh kosong",
+                        icon: "error",
+                        confirmButtonText: "Ok"
+                    }).then(() => {
+                        window.history.back();
+                    });
+                });
+              </script>';
+        exit(); // Stop execution if there are empty fields
     }
 
     // Prepare SQL statement to update the content
-    $update_sql = "UPDATE tbl_modul_contents SET section = ?, content = ? WHERE id = ?";
+    $update_sql = "UPDATE tbl_modul_contents SET section = ?, content = ?, position = ? WHERE id = ?";
     $stmt = $koneksi->prepare($update_sql);
-    $stmt->bind_param('ssi', $section, $content, $id_content);
 
+    // Bind the parameters in the correct order
+    $stmt->bind_param('ssii', $section, $content, $position, $id_content);
+
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
     if ($stmt->execute()) {
-        header('Location: ../../html/guru/tablemodul-detail.php?id=' . $id_modul);
-        exit();
+        echo '<script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    Swal.fire({
+                        title: "Success",
+                        text: "Data berhasil diperbarui",
+                        icon: "success",
+                        confirmButtonText: "Ok"
+                    }).then(() => {
+                        window.location.href = "../../html/guru/tablemodul-detail.php?id=' . $id_modul . '";
+                    });
+                });
+              </script>';
     } else {
-        // Handle error
-        echo "Error: " . $update_sql . "<br>" . $koneksi->error;
+        // Handle error with SweetAlert
+        echo '<script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Gagal memperbarui data: ' . $stmt->error . '",
+                        icon: "error",
+                        confirmButtonText: "Ok"
+                    }).then(() => {
+                        window.history.back();
+                    });
+                });
+              </script>';
     }
 
     $stmt->close();

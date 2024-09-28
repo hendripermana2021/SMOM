@@ -14,11 +14,37 @@ if (empty($_SESSION['name_user'])) {
                 confirmButtonText: "Ok"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "../login/login.php";
+                    window.location.href = "../../login.php";
                 }
             });
         });
     </script>';
+    exit();
+}
+
+if (isset($_SESSION['logout'])) {
+    // Load SweetAlert script
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+
+    // Display SweetAlert message
+    echo '<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                title: "Success",
+                text: "Anda Sudah Logout",
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Ok"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "./";
+                }
+            });
+        });
+    </script>';
+
+    // Unset the logout session and stop further execution
+    unset($_SESSION['logout']);
     exit();
 }
 
@@ -34,11 +60,54 @@ if (!($_SESSION['role_id'] == 2) || empty($_SESSION['role_id'])) {
                 confirmButtonText: "Ok"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "../login/login.php";
+                    window.location.href = "../../login.php";
                 }
             });
         });
     </script>';
+    exit();
+}
+
+if ($_SESSION['role_id'] != 2) {
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+    echo '<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                title: "Warning",
+                text: "Anda tidak memiliki hak akses",
+                icon: "warning", // Perbaiki "watning" menjadi "warning"
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Ok"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.history.back(); // Kembali ke halaman sebelumnya
+                }
+            });
+        });
+    </script>';
+    unset($_SESSION['role_id']);
+    exit();
+}
+
+if ($_SESSION['hook']) {
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+    echo '<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                title: "Success",
+                text: "Anda Berhasil Login",
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Ok"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "./";
+                }
+                
+            });
+        });
+    </script>';
+    unset($_SESSION['hook']);
     exit();
 }
 ?>

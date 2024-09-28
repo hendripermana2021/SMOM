@@ -8,6 +8,7 @@ if (isset($_POST['prosesmodul'])) {
     $subtitle = mysqli_real_escape_string($koneksi, $_POST['subtitle']);
     $tingkat = mysqli_real_escape_string($koneksi, $_POST['tingkat']);
     $status_post = mysqli_real_escape_string($koneksi, $_POST['status_post']);
+    $status_active = 'Active';
     $user_id = mysqli_real_escape_string($koneksi, $_POST['user_id']);
 
     $created_at = date('Y-m-d H:i:s');
@@ -64,7 +65,7 @@ if (isset($_POST['prosesmodul'])) {
     // Adjust query based on the control value
     if ($control == "add") {
         $insert = mysqli_query($koneksi, "INSERT INTO tbl_moduls (title, id_guru, subtitle, status_post, for_class, image, createdAt, updatedAt) 
-                                          VALUES ('$title','$user_id', '$subtitle', '$status_post', '$tingkat', '$new_image_name', '$created_at', '$updated_at')");
+                                          VALUES ('$title','$user_id', '$subtitle', '$status_active', '$tingkat', '$new_image_name', '$created_at', '$updated_at')");
     } else if ($control == "update" && $id_modul) {
         $update = mysqli_query($koneksi, "UPDATE tbl_moduls 
                                           SET title='$title', subtitle='$subtitle', status_post='$status_post', for_class='$tingkat', image='$new_image_name', updatedAt='$updated_at'

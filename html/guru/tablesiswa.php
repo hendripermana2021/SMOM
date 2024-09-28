@@ -51,6 +51,12 @@ if ($queryClass) {
 <?php require 'head.php'; ?>
 <!-- END HEAD -->
 
+<style>
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0;
+  }
+</style>
+
 <body>
   <!-- Layout wrapper -->
   <div class="layout-wrapper layout-content-navbar">
@@ -189,7 +195,7 @@ if ($queryClass) {
                                     <label class="col-sm-2 col-form-label">Sex</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                        <span class="input-group-text"><i class="bx bx-male-sign"></i></span> <!-- Changed icon -->
                                         <select class="form-select" name="sex" required>
                                           <option hidden>Pilih Gender</option>
                                           <option value="L" <?= $row['sex'] == 'L' ? 'selected' : '' ?>>Laki-laki</option>
@@ -202,7 +208,7 @@ if ($queryClass) {
                                     <label class="col-sm-2 col-form-label">Kelas</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                        <span class="input-group-text"><i class="bx bx-fridge"></i></span> <!-- Changed icon -->
                                         <select class="form-select" name="kelas" required>
                                           <option hidden>Pilih Kelas</option>
                                           <?php
@@ -220,16 +226,16 @@ if ($queryClass) {
                                     <label class="col-sm-2 col-form-label">Nama Ayah</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                        <span class="input-group-text"><i class="bx bx-user-circle"></i></span> <!-- Changed icon -->
                                         <input type="text" class="form-control" name="namaayah" value="<?= $row['fathername'] ?>" required />
                                       </div>
                                     </div>
                                   </div>
                                   <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Name Ibu</label>
+                                    <label class="col-sm-2 col-form-label">Nama Ibu</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                        <span class="input-group-text"><i class="bx bx-user-circle"></i></span> <!-- Changed icon -->
                                         <input type="text" class="form-control" name="namaibu" value="<?= $row['mothername'] ?>" required />
                                       </div>
                                     </div>
@@ -238,7 +244,7 @@ if ($queryClass) {
                                     <label class="col-sm-2 col-form-label">Status</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                        <span class="input-group-text"><i class="bx bx-check-circle"></i></span> <!-- Changed icon -->
                                         <select class="form-select" name="status" required>
                                           <option hidden>Pilih Status</option>
                                           <option value="Active" <?= $row['status'] == 'Active' ? 'selected' : '' ?>>Active</option>
@@ -251,7 +257,7 @@ if ($queryClass) {
                                     <label class="col-sm-2 col-form-label">Email</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                        <span class="input-group-text"><i class="bx bx-envelope"></i></span> <!-- Changed icon -->
                                         <input type="text" class="form-control" name="email" value="<?= $row['email'] ?>" required />
                                       </div>
                                     </div>
@@ -274,6 +280,7 @@ if ($queryClass) {
                             </div>
                           </div>
                         </div>
+
 
                         <!-- Modal Delete -->
                         <div class="modal fade" id="delete<?= $row['id_siswa'] ?>" tabindex="-1" aria-hidden="true">
@@ -341,7 +348,7 @@ if ($queryClass) {
                 <label class="col-sm-2 col-form-label">Sex</label>
                 <div class="col-sm-10">
                   <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-user"></i></span>
+                    <span class="input-group-text"><i class="bx bx-male-sign"></i></span> <!-- Changed icon -->
                     <select class="form-select" name="sex" required>
                       <option hidden>Pilih Gender</option>
                       <option value="L">Laki-laki</option>
@@ -354,7 +361,7 @@ if ($queryClass) {
                 <label class="col-sm-2 col-form-label">Kelas</label>
                 <div class="col-sm-10">
                   <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-user"></i></span>
+                    <span class="input-group-text"><i class="bx bx-building-house"></i></span> <!-- Changed icon -->
                     <select class="form-select" name="kelas" required>
                       <option hidden>Pilih Kelas</option>
                       <?php
@@ -370,16 +377,16 @@ if ($queryClass) {
                 <label class="col-sm-2 col-form-label">Nama Ayah</label>
                 <div class="col-sm-10">
                   <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-user"></i></span>
+                    <span class="input-group-text"><i class="bx bx-user-circle"></i></span> <!-- Changed icon -->
                     <input type="text" class="form-control" name="namaayah" required />
                   </div>
                 </div>
               </div>
               <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">Name Ibu</label>
+                <label class="col-sm-2 col-form-label">Nama Ibu</label>
                 <div class="col-sm-10">
                   <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-user"></i></span>
+                    <span class="input-group-text"><i class="bx bx-user-circle"></i></span> <!-- Changed icon -->
                     <input type="text" class="form-control" name="namaibu" required />
                   </div>
                 </div>
@@ -388,7 +395,7 @@ if ($queryClass) {
                 <label class="col-sm-2 col-form-label">Status</label>
                 <div class="col-sm-10">
                   <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-user"></i></span>
+                    <span class="input-group-text"><i class="bx bx-check-circle"></i></span> <!-- Changed icon -->
                     <select class="form-select" name="status" required>
                       <option hidden>Pilih Status</option>
                       <option value="Active">Active</option>
@@ -401,7 +408,7 @@ if ($queryClass) {
                 <label class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-10">
                   <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-user"></i></span>
+                    <span class="input-group-text"><i class="bx bx-envelope"></i></span> <!-- Changed icon -->
                     <input type="text" class="form-control" name="email" required />
                   </div>
                 </div>
@@ -424,6 +431,7 @@ if ($queryClass) {
         </div>
       </div>
     </div>
+
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>
   </div>

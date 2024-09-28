@@ -67,7 +67,15 @@ $totaldata = mysqli_num_rows($data);
                                 echo htmlspecialchars($subtitle);
                                 ?>
                               </p>
-                              <a href="viewmodul.php?id=<?= htmlspecialchars($row['id']) ?>" class="btn btn-outline-primary">Baca Materi</a>
+                              <?php
+                              $type_modul = $row['type_modul'];
+                              if ($type_modul == 0) {
+                                $typeView = "viewmodul.php?id=" . $row['id'];
+                              } else {
+                                $typeView = "viewmodul-pdf.php?id=" . $row['filePdf'];
+                              }
+                              ?>
+                              <a href="<?= $typeView ?>" class="btn btn-outline-primary">Baca Materi</a>
                             </div>
                           </div>
                         </div>
@@ -79,13 +87,14 @@ $totaldata = mysqli_num_rows($data);
             </div>
             <!-- / Content -->
 
-            <!-- Footer -->
-            <?php require 'footer.php'; ?>
-            <!-- / Footer -->
+
 
             <div class="content-backdrop fade"></div>
           </div>
           <!-- Content wrapper -->
+          <!-- Footer -->
+          <?php require 'footer.php'; ?>
+          <!-- / Footer -->
         </div>
         <!-- / Layout page -->
       </div>

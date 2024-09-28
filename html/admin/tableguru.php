@@ -12,6 +12,12 @@ $totaldata = mysqli_num_rows($data);
 
 <!-- Head -->
 <?php require './head.php'; ?>
+<style>
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0;
+  }
+</style>
+
 <!-- END HEAD -->
 
 <body>
@@ -126,7 +132,7 @@ $totaldata = mysqli_num_rows($data);
                                 <h5 class="modal-title">Update Data Guru</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
-                              <form method="POST" action=""> <!-- pastikan action mengarah ke file PHP yang menangani update -->
+                              <form method="POST" action=""> <!-- Ensure the action points to the PHP file handling the update -->
                                 <input type="hidden" name="id_user" value="<?= $row['id_user'] ?>">
                                 <input type="hidden" name="control" value="update">
                                 <div class="modal-body">
@@ -134,7 +140,6 @@ $totaldata = mysqli_num_rows($data);
                                     <label class="col-sm-2 col-form-label">Name Guru</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
                                         <input type="text" class="form-control" name="name_user" value="<?= $row['name_guru'] ?>" required />
                                       </div>
                                     </div>
@@ -143,7 +148,6 @@ $totaldata = mysqli_num_rows($data);
                                     <label class="col-sm-2 col-form-label">Bid. Pendidikan</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
                                         <select class="form-select" name="bid_pendidikan" required>
                                           <option hidden>Pilih Mata Pelajaran</option>
                                           <?php
@@ -161,7 +165,6 @@ $totaldata = mysqli_num_rows($data);
                                     <label class="col-sm-2 col-form-label">Pendidikan</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
                                         <select class="form-select" name="pendidikan" required>
                                           <option hidden>Pilih Pendidikan</option>
                                           <option value="SMA/SMK" <?= $row['pendidikan'] == 'SMA/SMK' ? 'selected' : '' ?>>SMA/SMK</option>
@@ -176,7 +179,6 @@ $totaldata = mysqli_num_rows($data);
                                     <label class="col-sm-2 col-form-label">Sex</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
                                         <select class="form-select" name="sex" required>
                                           <option hidden>Pilih Gender</option>
                                           <option value="L" <?= $row['sex'] == 'L' ? 'selected' : '' ?>>Laki-laki</option>
@@ -189,7 +191,6 @@ $totaldata = mysqli_num_rows($data);
                                     <label class="col-sm-2 col-form-label">Email</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-envelope"></i></span>
                                         <input type="email" class="form-control" name="email" value="<?= $row['email'] ?>" required />
                                       </div>
                                     </div>
@@ -198,7 +199,6 @@ $totaldata = mysqli_num_rows($data);
                                     <label class="col-sm-2 col-form-label">Password</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-key"></i></span>
                                         <input type="password" class="form-control" name="password" value="<?= $row['real_password'] ?>" required />
                                       </div>
                                     </div>
@@ -212,6 +212,7 @@ $totaldata = mysqli_num_rows($data);
                             </div>
                           </div>
                         </div>
+
 
                         <!-- Modal Delete -->
                         <div class="modal fade" id="delete<?= $row['id_user'] ?>" tabindex="-1" aria-hidden="true">
@@ -231,7 +232,6 @@ $totaldata = mysqli_num_rows($data);
                                   <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
                                   <button type="submit" name="prosesguru" class="btn btn-danger">Delete</button>
                                 </div>
-
                               </form>
                             </div>
                           </div>
@@ -272,7 +272,6 @@ $totaldata = mysqli_num_rows($data);
                   <label class="col-sm-2 col-form-label">Name Guru</label>
                   <div class="col-sm-10">
                     <div class="input-group input-group-merge">
-                      <span class="input-group-text"><i class="bx bx-user"></i></span>
                       <input type="text" class="form-control" name="name_user" required />
                     </div>
                   </div>
@@ -281,7 +280,6 @@ $totaldata = mysqli_num_rows($data);
                   <label class="col-sm-2 col-form-label">Bid. Pendidikan</label>
                   <div class="col-sm-10">
                     <div class="input-group input-group-merge">
-                      <span class="input-group-text"><i class="bx bx-book"></i></span>
                       <select class="form-select" name="bid_pendidikan" required>
                         <option hidden>Pilih Mata Pelajaran</option>
                         <?php
@@ -297,7 +295,6 @@ $totaldata = mysqli_num_rows($data);
                   <label class="col-sm-2 col-form-label">Pendidikan</label>
                   <div class="col-sm-10">
                     <div class="input-group input-group-merge">
-                      <span class="input-group-text"><i class="bx bx-graduation"></i></span>
                       <select class="form-select" name="pendidikan" required>
                         <option hidden selected>Pilih Pendidikan</option>
                         <option value="SMA/SMK">SMA/SMK</option>
@@ -312,7 +309,6 @@ $totaldata = mysqli_num_rows($data);
                   <label class="col-sm-2 col-form-label">Sex</label>
                   <div class="col-sm-10">
                     <div class="input-group input-group-merge">
-                      <span class="input-group-text"><i class="bx bx-user"></i></span>
                       <select class="form-select" name="sex" required>
                         <option hidden selected>Pilih Gender</option>
                         <option value="L">Laki-laki</option>
@@ -325,7 +321,6 @@ $totaldata = mysqli_num_rows($data);
                   <label class="col-sm-2 col-form-label">Email</label>
                   <div class="col-sm-10">
                     <div class="input-group input-group-merge">
-                      <span class="input-group-text"><i class="bx bx-envelope"></i></span>
                       <input type="email" class="form-control" name="email" required />
                     </div>
                   </div>
@@ -334,7 +329,6 @@ $totaldata = mysqli_num_rows($data);
                   <label class="col-sm-2 col-form-label">Password</label>
                   <div class="col-sm-10">
                     <div class="input-group input-group-merge">
-                      <span class="input-group-text"><i class="bx bx-key"></i></span>
                       <input type="password" class="form-control" name="password" placeholder="*****" required />
                     </div>
                   </div>
@@ -348,6 +342,7 @@ $totaldata = mysqli_num_rows($data);
           </div>
         </div>
       </div>
+
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->

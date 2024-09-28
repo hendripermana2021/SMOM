@@ -2,7 +2,8 @@
 require '../../db/connect.php';
 
 if (isset($_POST['prosestest'])) {
-    // Melakukan sanitasi input untuk menghindari SQL Injection
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+    // Sanitize input to prevent SQL injection
     $control = mysqli_real_escape_string($koneksi, $_POST['control']);
     $title = mysqli_real_escape_string($koneksi, $_POST['title']);
     $description = mysqli_real_escape_string($koneksi, $_POST['description']);
@@ -12,7 +13,7 @@ if (isset($_POST['prosestest'])) {
     $created_at = date('Y-m-d H:i:s');
     $updated_at = date('Y-m-d H:i:s');
 
-    // Handling optional 'id_test' only if it exists (e.g., for update or delete)
+    // Handle optional 'id_test' only if it exists
     $id_test = isset($_POST['id_test']) ? mysqli_real_escape_string($koneksi, $_POST['id_test']) : null;
 
     // Initialize query variables
@@ -43,16 +44,47 @@ if (isset($_POST['prosestest'])) {
                 // Additionally delete related questions if it's a delete operation
                 $deletequestion = mysqli_query($koneksi, "DELETE FROM tbl_questions WHERE id_test='$id_test'");
             }
-            header('Location: ../../html/guru/tabletest.php');
+
+            // SweetAlert success notification
+            echo '<script>
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: "' . ucfirst($control) . ' operation completed successfully.",
+                        confirmButtonText: "OK"
+                    }).then(() => {
+                        window.location.href = "../../html/guru/tabletest.php";
+                    });
+                  </script>';
             exit();
         } else {
-            $_SESSION["error"] = 'Gagal Proses: ' . mysqli_error($koneksi);
+            // SweetAlert error notification
+            echo '<script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: "Failed to process: ' . mysqli_error($koneksi) . '",
+                        confirmButtonText: "OK"
+                    }).then(() => {
+                        window.location.href = "../../html/guru/tabletest.php"; // Redirect to the same page
+                    });
+                  </script>';
+            exit();
         }
     } else {
-        $_SESSION["error"] = 'Gagal Proses: Invalid Control or Missing ID';
+        // SweetAlert error notification for invalid control or missing ID
+        echo '<script>
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: "Invalid Control or Missing ID.",
+                    confirmButtonText: "OK"
+                }).then(() => {
+                    window.location.href = "../../html/guru/tabletest.php"; // Redirect to the same page
+                });
+              </script>';
+        exit();
     }
-
-    // Redirect back to the same page
-    header('Location: ../../html/guru/tabletest.php');
-    exit();
 }
+
+$koneksi->close();

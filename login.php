@@ -15,7 +15,7 @@ if ($_SESSION['role_id'] == 1) {
                 confirmButtonText: "Ok"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "../admin/index.php";
+                    window.location.href = "./html/admin/index.php";
                 }
             });
         });
@@ -34,7 +34,7 @@ if ($_SESSION['role_id'] == 2) {
                 confirmButtonText: "Ok"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "../guru/index.php";
+                    window.location.href = "./html/guru/index.php";
                 }
             });
         });
@@ -53,14 +53,58 @@ if ($_SESSION['role_id'] == 3) {
                 confirmButtonText: "Ok"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "../siswa/index.php";
+                    window.location.href = "./html/siswa/index.php";
                 }
             });
         });
     </script>';
 }
 
+if ($_SESSION['logout'] == 1) {
+  echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+  echo '<script>
+      document.addEventListener("DOMContentLoaded", function() {
+          Swal.fire({
+                title: "Success",
+                text: "Anda Sudah Logout",
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Ok"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "./";
+                }
+            });
+      });
+  </script>';
+  unset($_SESSION['logout']);
+  exit();
+}
+
+if ($_SESSION['failed']) {
+  echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+  echo '<script>
+      document.addEventListener("DOMContentLoaded", function() {
+          Swal.fire({
+              title: "Warning",
+              text: "Salah Username atau Password",
+              icon: "info",
+              confirmButtonColor: "#3085d6",
+              confirmButtonText: "Ok"
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  window.location.href = "./login.php";
+              }
+
+          });
+      });
+  </script>';
+  unset($_SESSION['failed']);
+  exit();
+}
+
 ?>
+
 <html
   lang="en"
   class="light-style customizer-hide"

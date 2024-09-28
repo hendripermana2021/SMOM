@@ -142,7 +142,7 @@ $totaldata = mysqli_num_rows($data);
             </li>
           <?php endforeach; ?>
           <li class="menu-item" style="text-decoration:none">
-            <a target="_self" href="tablemodul.php" class="menu-link">
+            <a target="_self" href="viewModulSiswa.php" class="menu-link">
               <div data-i18n="kembali">Kembali</div>
             </a>
           </li>

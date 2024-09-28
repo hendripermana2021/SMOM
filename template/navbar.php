@@ -20,8 +20,7 @@
     <div class="sticky-nav js-sticky-header">
         <div class="container position-relative">
             <div class="site-navigation text-center">
-                <a href="index.html" class="logo menu-absolute m-0">Learner<span class="text-primary">.</span></a>
-
+                <a href="index.php" class="logo menu-absolute m-0">SMOM APPS<span class="text-primary">.</span></a>
                 <ul class="js-clone-nav d-none d-lg-inline-block site-menu">
                     <li class="active"><a href="#landing">Home</a></li>
                     <li><a href="#staff">Staff</a></li>

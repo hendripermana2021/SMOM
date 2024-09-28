@@ -71,7 +71,7 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
                   </div>
                 </div>
                 <div class="table-responsive text-nowrap">
-                  <table class="table table-hover" id="basic-1">
+                  <table class="table table-hover" id="tableQuestion">
                     <thead>
                       <tr>
                         <th>No</th>
@@ -939,16 +939,19 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
 
 
   <!-- jQuery (required for DataTables) -->
+
+  <!-- DataTables JS -->
+
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <!-- DataTables JS -->
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-
   <script>
     $(document).ready(function() {
-      $('#basic-1').DataTable();
+      $('#tableQuestion').DataTable();
     });
   </script>
+
 
 
 

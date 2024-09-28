@@ -13,6 +13,11 @@ $totaldata = mysqli_num_rows($data);
 <!-- Head -->
 <?php require './head.php'; ?>
 <!-- END HEAD -->
+<style>
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0;
+  }
+</style>
 
 <body>
   <!-- Layout wrapper -->
@@ -105,7 +110,7 @@ $totaldata = mysqli_num_rows($data);
                                 <h5 class="modal-title">Update Data Mapel</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
-                              <form method="POST" action=""> <!-- pastikan action mengarah ke file PHP yang menangani update -->
+                              <form method="POST" action=""> <!-- Ensure the action points to the PHP file handling the update -->
                                 <input type="hidden" name="control" value="update" />
                                 <input type="hidden" name="id_mapel" value="<?= $row['id'] ?>" />
                                 <div class="modal-body">
@@ -113,7 +118,7 @@ $totaldata = mysqli_num_rows($data);
                                     <label class="col-sm-2 col-form-label">Mata Pelajaran</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                        <span class="input-group-text"><i class="bx bx-book"></i></span> <!-- Updated Icon -->
                                         <input type="text" class="form-control" name="nama_mapel" value="<?= $row['nama_mapel'] ?>" required />
                                       </div>
                                     </div>
@@ -127,6 +132,7 @@ $totaldata = mysqli_num_rows($data);
                             </div>
                           </div>
                         </div>
+
 
                         <!-- Modal Delete -->
                         <div class="modal fade" id="delete<?= $row['id'] ?>" tabindex="-1" aria-hidden="true">
@@ -178,14 +184,14 @@ $totaldata = mysqli_num_rows($data);
             <h5 class="modal-title">Tambah Data Mapel</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <form method="POST" action=""> <!-- pastikan action mengarah ke file PHP yang menangani update -->
+          <form method="POST" action=""> <!-- Ensure the action points to the PHP file handling the addition -->
             <input type="hidden" name="control" value="add" />
             <div class="modal-body">
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Mata Pelajaran</label>
                 <div class="col-sm-10">
                   <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-user"></i></span>
+                    <span class="input-group-text"><i class="bx bx-book"></i></span> <!-- Updated Icon -->
                     <input type="text" class="form-control" name="nama_mapel" required />
                   </div>
                 </div>
@@ -199,6 +205,7 @@ $totaldata = mysqli_num_rows($data);
         </div>
       </div>
     </div>
+
 
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>

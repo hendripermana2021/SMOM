@@ -14,11 +14,80 @@ if (empty($_SESSION['name_user'])) {
                 confirmButtonText: "Ok"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "../login/login.php";
+                    window.location.href = "../../login.php";
                 }
             });
         });
     </script>';
+    exit();
+}
+
+if ($_SESSION['hook']) {
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+    echo '<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                title: "Success",
+                text: "Anda Berhasil Login",
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Ok"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "./";
+                }
+                
+            });
+        });
+    </script>';
+    unset($_SESSION['hook']);
+    exit();
+}
+
+if ($_SESSION['logout'] == 1) {
+    // Load SweetAlert script
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+
+    // Display SweetAlert message
+    echo '<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                title: "Success",
+                text: "Anda Sudah Logout",
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Ok"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "./";
+                }
+            });
+        });
+    </script>';
+
+    // Unset the logout session and stop further execution
+    unset($_SESSION['logout']);
+    exit();
+}
+
+if ($_SESSION['role_id'] != 1) {
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+    echo '<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                title: "Warning",
+                text: "Anda tidak memiliki hak akses",
+                icon: "warning", // Perbaiki "watning" menjadi "warning"
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Ok"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "../../login.php";
+                }
+            });
+        });
+    </script>';
+    unset($_SESSION['role_id']);
     exit();
 }
 
@@ -34,13 +103,38 @@ if (!($_SESSION['role_id'] == 1) || empty($_SESSION['role_id'])) {
                 confirmButtonText: "Ok"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "../login/login.php;
+                    window.location.href = "../../login.php;
+                                        
                 }
             });
         });
     </script>';
+
     exit();
 }
+
+
+// if ($_SESSION['errorImage']) {
+//     echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+//     echo '<script>
+//         document.addEventListener("DOMContentLoaded", function() {
+//             Swal.fire({
+//                 title: "Warning",
+//                 text: "image Terlalu Besar",
+//                 icon: "warning", // Perbaiki "watning" menjadi "warning"
+//                 confirmButtonColor: "#3085d6",
+//                 confirmButtonText: "Ok"
+//             }).then((result) => {
+//                 if (result.isConfirmed) {
+//                     window.location.href = "../../login.php";
+//                 }
+//             });
+//         });
+//     </script>';
+//     unset($_SESSION['errorImage']);
+//     exit();
+// }
+
 ?>
 
 
@@ -76,6 +170,7 @@ if (!($_SESSION['role_id'] == 1) || empty($_SESSION['role_id'])) {
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link
@@ -99,6 +194,13 @@ if (!($_SESSION['role_id'] == 1) || empty($_SESSION['role_id'])) {
 
     <!-- Helpers -->
     <script src="../../assets/vendor/js/helpers.js"></script>
+    <!-- build:js assets/vendor/js/core.js -->
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+
+    <!-- Main JS -->
+    <!-- <script src="../../assets/js/main.js"></script> -->
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->

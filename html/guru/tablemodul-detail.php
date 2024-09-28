@@ -13,6 +13,11 @@ $totaldata = mysqli_num_rows($data);
 
 <!-- Head -->
 <?php require 'head.php'; ?>
+<style>
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0;
+  }
+</style>
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
@@ -77,6 +82,7 @@ $totaldata = mysqli_num_rows($data);
                       <tr>
                         <th>No</th>
                         <th>Section</th>
+                        <th>Position</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
@@ -88,6 +94,7 @@ $totaldata = mysqli_num_rows($data);
                         <tr>
                           <td><?= $index++ ?></td> <!-- Output the index and increment it -->
                           <td><?= $row['section'] ?></td>
+                          <td><?= $row['position'] ?></td>
                           <td class="text-center col-2">
                             <button
                               type="button"
@@ -158,9 +165,22 @@ $totaldata = mysqli_num_rows($data);
                                     <label class="col-sm-1 col-form-label">Section</label>
                                     <div class="col-sm-11">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                        <span class="input-group-text"><i class="bx bx-book"></i></span>
                                         <input type="text" class="form-control" name="section" id="update-section<?= $row['id'] ?>" value="<?= $row['section'] ?>" required />
                                       </div>
+                                    </div>
+                                  </div>
+                                  <div class="row mb-3">
+                                    <label class="col-sm-1 col-form-label">Position</label>
+                                    <div class="col-sm-11">
+                                      <select name="position" id="position" class="form-select" required>
+                                        <script>
+                                          for (let i = 1; i <= 30; i++) {
+                                            const selected = (<?= $row['position'] ?> == i) ? 'selected' : '';
+                                            document.write(`<option value="${i}" ${selected}>${i}</option>`);
+                                          }
+                                        </script>
+                                      </select>
                                     </div>
                                   </div>
                                   <div class="row mb-3">
@@ -272,13 +292,15 @@ $totaldata = mysqli_num_rows($data);
             </div>
             <!-- / Content -->
 
-            <!-- Footer -->
-            <?php require '../admin/footer.php'; ?>
-            <!-- / Footer -->
+
 
             <div class="content-backdrop fade"></div>
           </div>
           <!-- Content wrapper -->
+
+          <!-- Footer -->
+          <?php require '../admin/footer.php'; ?>
+          <!-- / Footer -->
         </div>
         <!-- Modal Add -->
         <div class="modal fade" id="add" tabindex="-1" aria-hidden="true">
@@ -288,7 +310,7 @@ $totaldata = mysqli_num_rows($data);
                 <h5 class="modal-title">Tambah Content</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <form id="add-content" method="POST" action="../../controller/guru/addcontentquestion.php">
+              <form id="add-content" method="POST" action="../../controller/guru/addcontentmodul.php">
                 <input type="hidden" name="content" id="content">
                 <input type="hidden" name="control" value="add">
                 <input type="hidden" name="id_modul" value="<?= $id ?>">
@@ -297,9 +319,22 @@ $totaldata = mysqli_num_rows($data);
                     <label class="col-sm-1 col-form-label">Section</label>
                     <div class="col-sm-11">
                       <div class="input-group input-group-merge">
-                        <span class="input-group-text"><i class="bx bx-user"></i></span>
+                        <span class="input-group-text"><i class="bx bx-book"></i></span>
                         <input type="text" class="form-control" name="section" required />
                       </div>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label class="col-sm-1 col-form-label">Position</label>
+                    <div class="col-sm-2">
+                      <select name="position" id="position" class="form-select" required>
+                        <option value="" selected hidden>-- Pilih --</option>
+                        <script>
+                          for (let i = 1; i <= 30; i++) {
+                            document.write(`<option value="${i}">${i}</option>`);
+                          }
+                        </script>
+                      </select>
                     </div>
                   </div>
                   <div class="row mb-3">

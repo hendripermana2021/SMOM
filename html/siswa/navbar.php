@@ -3,6 +3,14 @@ $user_id = $_SESSION['user_id'];
 $role_id = $_SESSION['role_id'];
 $email = $_SESSION['email'];
 $name = $_SESSION['name_user'];
+
+if ($role_id == 1) {
+    $rolePath = 'Admin';
+} else if ($role_id == 2) {
+    $rolePath = 'Guru';
+} else {
+    $rolePath = 'Siswa';
+}
 ?>
 
 <nav
@@ -41,7 +49,7 @@ $name = $_SESSION['name_user'];
                                 </div>
                                 <div class="flex-grow-1">
                                     <span class="fw-semibold d-block"><?= $name ?></span>
-                                    <small class="text-muted">Siswa</small>
+                                    <small class="text-muted"><?= $rolePath ?></small>
                                 </div>
                             </div>
                         </a>

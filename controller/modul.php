@@ -2,86 +2,160 @@
 require '../../db/connect.php';
 
 if (isset($_POST['prosesmodul'])) {
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+
     // Melakukan sanitasi input untuk menghindari SQL Injection
     $control = mysqli_real_escape_string($koneksi, $_POST['control']);
     $title = mysqli_real_escape_string($koneksi, $_POST['title']);
     $subtitle = mysqli_real_escape_string($koneksi, $_POST['subtitle']);
     $tingkat = mysqli_real_escape_string($koneksi, $_POST['tingkat']);
     $status_post = mysqli_real_escape_string($koneksi, $_POST['status_post']);
-    $user_id = mysqli_real_escape_string($koneksi, $_POST['user_id']);
-    $position = $_POST['position'];
+    $type_modul = mysqli_real_escape_string($koneksi, $_POST['type_modul']);
     $statusActive = 'Active';
-
+    $user_id = mysqli_real_escape_string($koneksi, $_POST['user_id']);
     $created_at = date('Y-m-d H:i:s');
     $updated_at = date('Y-m-d H:i:s');
+    $imageUpdate = isset($_POST['image']) ? $_POST['image'] : null;
+    $pdfUpdate = isset($_POST['uploadPdf']) ? $_POST['uploadPdf'] : null;
 
-    // Handling optional 'id_modul' only if it exists (e.g., for update or delete)
+    // Handling optional 'id_modul'
     $id_modul = isset($_POST['id_modul']) ? mysqli_real_escape_string($koneksi, $_POST['id_modul']) : null;
 
     // Handle image upload
-    $image = $_FILES['image']['name'];
-    $target_dir = "../../assets/img/uploads/"; // Make sure this directory exists
+    $image = isset($_FILES['image']['name']) && $_FILES['image']['name'] != "" ? $_FILES['image']['name'] : $imageUpdate;
+    $target_dir = "../../assets/img/uploads/";
     $imageFileType = strtolower(pathinfo($image, PATHINFO_EXTENSION));
 
-    // Create a unique image name using the current date and time
-    $new_image_name = date('YmdHis') . '.' . $imageFileType;
-    $target_file = $target_dir . $new_image_name;
+    if ($image) {
+        $new_image_name = date('YmdHis') . '.' . $imageFileType;
+        $target_file = $target_dir . $new_image_name;
+    }
 
+    // Handle PDF upload
+    $filePdf = isset($_FILES['uploadPdf']['name']) && $_FILES['uploadPdf']['name'] != "" ? $_FILES['uploadPdf']['name'] : $pdfUpdate;
+    $target_dir_pdf = "../../assets/pdf/uploads/";
+    $pdfFileType = strtolower(pathinfo($filePdf, PATHINFO_EXTENSION));
+
+    if ($filePdf) {
+        $new_pdf_name = date('YmdHis') . '.' . $pdfFileType;
+        $target_file_pdf = $target_dir_pdf . $new_pdf_name;
+    }
+
+    // Initialize upload flags
     $uploadOk = 1;
+    $upload_pdf_ok = 1;
 
-    // Check if image file is a actual image or fake image
-    if (isset($_POST["submit"])) {
-        $check = getimagesize($_FILES["image"]["tmp_name"]);
-        if ($check !== false) {
-            $uploadOk = 1;
-        } else {
-            echo "File is not an image.";
-            $uploadOk = 0;
+    // Validate image file size
+    if (isset($_FILES["image"]["size"]) && $_FILES["image"]["size"] > 500000) {
+        echo '<script>
+            document.addEventListener("DOMContentLoaded", function() {
+                Swal.fire({
+                    title: "Warning",
+                    text: "Image terlalu besar, di atas 5MB",
+                    icon: "warning",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Ok"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.history.back();
+                    }
+                });
+            });
+        </script>';
+        exit();
+    }
+
+    // Upload image if validation passed
+    if ($uploadOk && isset($_FILES["image"]["tmp_name"]) && $_FILES["image"]["tmp_name"] != "") {
+        if (!move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+            echo '<script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    Swal.fire({
+                        title: "Warning",
+                        text: "Maaf, terjadi kesalahan saat mengunggah file gambar.",
+                        icon: "warning",
+                        confirmButtonColor: "#3085d6",
+                        confirmButtonText: "Ok"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.history.back();
+                        }
+                    });
+                });
+            </script>';
+            exit();
         }
     }
 
-    // Check file size
-    if ($_FILES["image"]["size"] > 500000) { // Adjust the file size limit as needed
-        echo "Sorry, your file is too large.";
-        $uploadOk = 0;
-    }
-
-    // Allow certain file formats
-    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-        $uploadOk = 0;
-    }
-
-    // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
-    } else {
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-            echo "The file " . htmlspecialchars(basename($new_image_name)) . " has been uploaded.";
-        } else {
-            echo "Sorry, there was an error uploading your file.";
+    // Upload PDF if validation passed
+    if ($upload_pdf_ok && isset($_FILES["uploadPdf"]["tmp_name"]) && $_FILES["uploadPdf"]["tmp_name"] != "") {
+        if (!move_uploaded_file($_FILES["uploadPdf"]["tmp_name"], $target_file_pdf)) {
+            echo '<script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    Swal.fire({
+                        title: "Warning",
+                        text: "Maaf, terjadi kesalahan saat mengunggah file PDF.",
+                        icon: "warning",
+                        confirmButtonColor: "#3085d6",
+                        confirmButtonText: "Ok"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.history.back();
+                        }
+                    });
+                });
+            </script>';
+            exit();
         }
     }
 
     // Adjust query based on the control value
     if ($control == "add") {
-        $insert = mysqli_query($koneksi, "INSERT INTO tbl_moduls (title, id_guru, subtitle, status_post, for_class, image, createdAt, updatedAt, position) 
-                                          VALUES ('$title','$user_id', '$subtitle', '$statusActive', '$tingkat', '$new_image_name', '$created_at', '$updated_at', '$position')");
+        $insert = mysqli_query($koneksi, "INSERT INTO tbl_moduls (title, id_guru, subtitle, status_post, for_class, image, filePdf, createdAt, updatedAt, type_modul) VALUES ('$title', '$user_id', '$subtitle', '$statusActive', '$tingkat', '$new_image_name', '$new_pdf_name', '$created_at', '$updated_at', '$type_modul')");
     } else if ($control == "update" && $id_modul) {
-        $update = mysqli_query($koneksi, "UPDATE tbl_moduls 
-                                          SET title='$title', subtitle='$subtitle', status_post='$status_post', for_class='$tingkat', image='$new_image_name', updatedAt='$updated_at', position='$position'
-                                          WHERE id='$id_modul'");
+        $updateQuery = "UPDATE tbl_moduls SET title='$title', subtitle='$subtitle', status_post='$status_post', for_class='$tingkat', updatedAt='$updated_at'";
+        $updateQuery .= $image ? ", image='$new_image_name'" : "";
+        $updateQuery .= $filePdf ? ", filePdf='$new_pdf_name'" : "";
+        $updateQuery .= " WHERE id='$id_modul'";
+        $update = mysqli_query($koneksi, $updateQuery);
     } else if ($control == "delete" && $id_modul) {
         $delete = mysqli_query($koneksi, "DELETE FROM tbl_moduls WHERE id='$id_modul'");
     }
 
     // Handling the result of the queries
     if ((isset($insert) && $insert) || (isset($update) && $update) || (isset($delete) && $delete)) {
-        $_SESSION["sukses"] = 'Data Berhasil Diproses';
+        echo '<script>
+            document.addEventListener("DOMContentLoaded", function() {
+                Swal.fire({
+                    title: "Success",
+                    text: "Data berhasil diproses.",
+                    icon: "success",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Ok"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "../admin/tablemodul.php";
+                    }
+                });
+            });
+        </script>';
+        exit();
     } else {
-        $_SESSION["error"] = 'Gagal Proses';
+        echo '<script>
+            document.addEventListener("DOMContentLoaded", function() {
+                Swal.fire({
+                    title: "Error",
+                    text: "Gagal memproses data.",
+                    icon: "error",
+                    confirmButtonColor: "#d33",
+                    confirmButtonText: "Ok"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.history.back();
+                    }
+                });
+            });
+        </script>';
+        exit();
     }
-
-    header('Location: ../../html/admin/tablemodul.php');
-    exit();
 }

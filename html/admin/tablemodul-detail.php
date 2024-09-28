@@ -21,6 +21,11 @@ $totaldata = mysqli_num_rows($data);
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
 <!-- END HEAD -->
+<style>
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0;
+  }
+</style>
 
 <body>
   <!-- Layout wrapper -->
@@ -144,8 +149,6 @@ $totaldata = mysqli_num_rows($data);
                           </div>
                         </div>
 
-
-
                         <!-- Update Modal -->
                         <div class="modal fade" id="updateModal<?= $row['id'] ?>" tabindex="-1" aria-hidden="true">
                           <div class="modal-dialog modal-fullscreen" role="document">
@@ -164,7 +167,7 @@ $totaldata = mysqli_num_rows($data);
                                     <label class="col-sm-1 col-form-label">Section</label>
                                     <div class="col-sm-11">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                        <span class="input-group-text"><i class="bx bx-book"></i></span>
                                         <input type="text" class="form-control" name="section" id="update-section<?= $row['id'] ?>" value="<?= $row['section'] ?>" required />
                                       </div>
                                     </div>
@@ -316,7 +319,7 @@ $totaldata = mysqli_num_rows($data);
                     <label class="col-sm-1 col-form-label">Section</label>
                     <div class="col-sm-11">
                       <div class="input-group input-group-merge">
-                        <span class="input-group-text"><i class="bx bx-user"></i></span>
+                        <span class="input-group-text"><i class="bx bx-book"></i></span>
                         <input type="text" class="form-control" name="section" required />
                       </div>
                     </div>

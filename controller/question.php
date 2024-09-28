@@ -6,12 +6,12 @@ if ($koneksi->connect_error) {
     die("Connection failed: " . $koneksi->connect_error);
 }
 
-if ($_SERVER['REQUEST_METHOD']) {
-    // Insert main question data
-    $text_question = $_POST['text_question'];
-    $answer = $_POST['answer'];
-    $scoreanswer = $_POST['scoreanswer'];
-    $id_test = $_POST['id_test'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Sanitize input to prevent SQL Injection
+    $text_question = mysqli_real_escape_string($koneksi, $_POST['text_question']);
+    $answer = mysqli_real_escape_string($koneksi, $_POST['answer']);
+    $scoreanswer = mysqli_real_escape_string($koneksi, $_POST['scoreanswer']);
+    $id_test = mysqli_real_escape_string($koneksi, $_POST['id_test']);
 
     $sql = "INSERT INTO tbl_questions (text_question, correctoption, scoreanswer, id_test) VALUES ('$text_question', '$answer', '$scoreanswer', '$id_test')";
 
@@ -19,14 +19,26 @@ if ($_SERVER['REQUEST_METHOD']) {
         $id_question_created = $koneksi->insert_id; // Get the last inserted question ID
 
         // Retrieve the options from Quill editors
-        $optionA = $_POST['optionA'];
-        $optionB = $_POST['optionB'];
-        $optionC = $_POST['optionC'];
-        $optionD = $_POST['optionD'];
+        $optionA = mysqli_real_escape_string($koneksi, $_POST['optionA']);
+        $optionB = mysqli_real_escape_string($koneksi, $_POST['optionB']);
+        $optionC = mysqli_real_escape_string($koneksi, $_POST['optionC']);
+        $optionD = mysqli_real_escape_string($koneksi, $_POST['optionD']);
 
         // Check if any of the options are empty
         if (empty($optionA) || empty($optionB) || empty($optionC) || empty($optionD)) {
-            echo 'All options (A, B, C, D) must be filled.';
+            echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+            echo '<script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        Swal.fire({
+                            title: "Error",
+                            text: "All options (A, B, C, D) must be filled.",
+                            icon: "error",
+                            confirmButtonText: "Ok"
+                        }).then(() => {
+                            window.history.back();
+                        });
+                    });
+                  </script>';
             exit();
         }
 
@@ -38,15 +50,48 @@ if ($_SERVER['REQUEST_METHOD']) {
         ('$id_question_created', 'D', '$optionD')";
 
         if ($koneksi->query($insert_options_query) === TRUE) {
-            // Success
-            header('Location: ../html/admin/test-question.php?id=' . $id_test);
-            exit();
+            echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+            echo '<script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        Swal.fire({
+                            title: "Success",
+                            text: "Question and options added successfully.",
+                            icon: "success",
+                            confirmButtonText: "Ok"
+                        }).then(() => {
+                            window.location.href = "../html/admin/test-question.php?id=' . $id_test . '";
+                        });
+                    });
+                  </script>';
         } else {
-            // Handle error for options insertion
-            echo "Error: " . $insert_options_query . "<br>" . $koneksi->error;
+            echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+            echo '<script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Failed to insert options: ' . $koneksi->error . '",
+                            icon: "error",
+                            confirmButtonText: "Ok"
+                        }).then(() => {
+                            window.history.back();
+                        });
+                    });
+                  </script>';
         }
     } else {
-        echo "Error: " . $sql . "<br>" . $koneksi->error;
+        echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+        echo '<script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Failed to insert question: ' . $koneksi->error . '",
+                        icon: "error",
+                        confirmButtonText: "Ok"
+                    }).then(() => {
+                        window.history.back();
+                    });
+                });
+              </script>';
     }
 }
 

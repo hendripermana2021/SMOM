@@ -1,16 +1,11 @@
-<!-- /*
-* Template Name: Learner
-* Template Author: Untree.co
-* Tempalte URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
-<!doctype html>
-<html lang="en">
+<html>
 
 <?php require './template/head.php' ?>
 
 <body>
-  <div class="site-mobile-menu">
+
+  <?php require './template/navbar.php' ?>
+  <div class="site-mobile-menu" style="z-index: 102;">
     <div class="site-mobile-menu-header">
       <div class="site-mobile-menu-close">
         <span class="icofont-close js-menu-toggle"></span>
@@ -19,31 +14,28 @@
     <div class="site-mobile-menu-body"></div>
   </div>
 
-
-  <?php require './template/navbar.php' ?>
-
-
-
-  <div class="untree_co-hero overlay" style="background-image: url('images/hero-img-1-min.jpg');" id="landing">
-    <div class="container">
-      <div class="row align-items-center justify-content-center">
-        <div class="col-12">
-          <div class="row justify-content-center ">
-            <div class="col-lg-6 text-center ">
-              <a href="#" href="https://vimeo.com/342333493" data-fancybox data-aos="fade-up" data-aos-delay="0" class="caption mb-4 d-inline-block">Watch the video</a>
-
-              <h1 class="mb-4 heading text-white" data-aos="fade-up" data-aos-delay="100">Education is the Mother of Leadership</h1>
-              <p class="mb-0" data-aos="fade-up" data-aos-delay="300"><a href="#" class="btn btn-secondary">Explore courses</a></p>
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <div class="untree_co-hero overlay" style="background-image: url('images/hero-img-1-min.jpg');" id="landing">
+        <div class="container">
+          <div class="row align-items-center justify-content-center">
+            <div class="col-12">
+              <div class="row justify-content-center ">
+                <div class="col-lg-6 text-center ">
+                  <h1 class="mb-4 heading text-white" data-aos="fade-up" data-aos-delay="100">Education is the Mother of Leadership</h1>
+                  <p class="mb-0" data-aos="fade-up" data-aos-delay="300"><a href="#landing123" class="btn btn-secondary">Explore courses</a></p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div> <!-- /.row -->
-    </div> <!-- /.container -->
+          </div> <!-- /.row -->
+        </div> <!-- /.container -->
 
-  </div> <!-- /.untree_co-hero -->
+      </div> <!-- /.untree_co-hero -->
+    </div>
+  </div>
 
 
-  <div class="untree_co-section">
+  <div class="untree_co-section" id="landing123">
     <div class="container">
       <div class="row justify-content-center mb-5">
         <div class="col-lg-7 text-center" data-aos="fade-up" data-aos-delay="0">
@@ -73,8 +65,6 @@
             <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
           </div>
         </div>
-
-
         <div class="col-6 col-sm-6 col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay=100">
           <div class="feature">
             <span class="uil uil-book-alt"></span>
@@ -97,9 +87,8 @@
           </div>
         </div>
       </div>
-    </div> <!-- /.container -->
-  </div> <!-- /.untree_co-section -->
-
+    </div>
+  </div>
 
   <div class="untree_co-section bg-light" id="staff">
     <div class="container">
@@ -158,7 +147,6 @@
       </div>
     </div>
   </div>
-
 
   <div class="untree_co-section bg-light" id="news">
     <div class="container">
@@ -258,12 +246,12 @@
         </div>
       </div>
     </div>
-  </div> <!-- /News -->
+  </div>
 
   <div class="untree_co-section" id="about">
     <div class="container">
-      <div class="row justify-content-between">
-        <div class="col-lg-5 mb-2">
+      <div class="row justify-content-center mb-5">
+        <div class="col-lg-12 mb-2">
           <h2 class="line-bottom mb-4" data-aos="fade-up" data-aos-delay="0">About Us</h2>
           <p data-aos="fade-up" data-aos-delay="100">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
           <ul class="list-unstyled ul-check mb-5 primary" data-aos="fade-up" data-aos-delay="200">
@@ -292,16 +280,10 @@
             <a href="#" class="btn btn-outline-primary">Learn More</a>
           </p>
         </div>
-        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-          <div class="bg-1"></div>
-          <a href="https://vimeo.com/342333493" data-fancybox class="video-wrap">
-            <span class="play-wrap"><span class="icon-play"></span></span>
-            <img src="images/img-school-4-min.jpg" alt="Image" class="img-fluid rounded">
-          </a>
-        </div>
+
       </div>
     </div>
-  </div> <!-- /.untree_co-section -->
+  </div>
 
   <div class="untree_co-section" id="gallery">
     <div class="container">
@@ -374,7 +356,7 @@
         </div>
       </div>
     </div>
-  </div> <!-- /Gallery -->
+  </div>
 
   <div class="untree_co-section bg-light">
     <div class="container">
@@ -413,21 +395,12 @@
         </div>
       </div>
     </div>
-  </div> <!-- /.untree_co-section -->
-  <?php require './template/footer.php' ?>
-
-
-  <div id="overlayer"></div>
-  <div class="loader">
-    <div class="spinner-border" role="status">
-      <span class="sr-only">Loading...</span>
-    </div>
   </div>
 
-  <?php
-
-  require './template/library.php'; ?>
 
 </body>
+<?php require './template/footer.php' ?>
+
+<?php require './template/library.php'; ?>
 
 </html>

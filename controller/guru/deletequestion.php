@@ -1,10 +1,13 @@
 <?php
-require '../../db/connect.php';
+require '../../db/connect.php'; // Ensure this path is correct for your project
 
 // Check connection
 if ($koneksi->connect_error) {
     die("Connection failed: " . $koneksi->connect_error);
 }
+
+// Include SweetAlert2
+echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get form data
@@ -23,18 +26,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_question->bind_param('i', $id_question);
 
         if ($stmt_question->execute()) {
-            // Success
-            header('Location: ../../html/guru/test-question.php?id=' . $id_test);
+            // Success alert for deletion
+            echo '<script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "The question has been successfully deleted.",
+                            icon: "success",
+                            confirmButtonText: "Ok"
+                        }).then(() => {
+                            window.location.href = "../../html/guru/test-question.php?id=' . $id_test . '";
+                        });
+                    });
+                  </script>';
             exit();
         } else {
-            // Handle error for question delete
-            echo "Error: " . $delete_question_sql . "<br>" . $koneksi->error;
+            // Error alert for question deletion failure
+            echo '<script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Failed to delete the question: ' . $stmt_question->error . '",
+                            icon: "error",
+                            confirmButtonText: "Ok"
+                        }).then(() => {
+                            window.location.href = "../../html/guru/test-question.php?id=' . $id_test . '";
+                        });
+                    });
+                  </script>';
+            exit();
         }
 
         $stmt_question->close();
     } else {
-        // Handle error for options delete
-        echo "Error: " . $delete_options_sql . "<br>" . $koneksi->error;
+        // Error alert for options deletion failure
+        echo '<script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Failed to delete options: ' . $stmt_options->error . '",
+                        icon: "error",
+                        confirmButtonText: "Ok"
+                    }).then(() => {
+                        window.location.href = "../../html/guru/test-question.php?id=' . $id_test . '";
+                    });
+                });
+              </script>';
+        exit();
     }
 
     $stmt_options->close();

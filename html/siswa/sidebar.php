@@ -1,3 +1,7 @@
+<?php
+$menu = $_GET['open'];
+?>
+
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
     <a href="index.php" class="app-brand-link">
@@ -70,20 +74,20 @@
     </li>
 
     <!-- Layouts -->
-    <li class="menu-item">
+    <li class="menu-item <?= $menu == 'modul' || $menu == 'test' ? 'open active' : '' ?>">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-layout"></i>
         <div data-i18n="Layouts">Pembelajaran</div>
       </a>
 
       <ul class="menu-sub">
-        <li class="menu-item">
-          <a href="viewModulSiswa.php" class="menu-link">
+        <li class="menu-item <?= $menu == 'modul' ? 'active' : '' ?>">
+          <a href="viewModulSiswa.php?open=modul" class="menu-link">
             <div data-i18n="Without menu">Module</div>
           </a>
         </li>
-        <li class="menu-item">
-          <a href="pageTest.php" class="menu-link">
+        <li class="menu-item <?= $menu == 'test' ? 'active' : '' ?>">
+          <a href="pageTest.php?open=test" class="menu-link">
             <div data-i18n="Without navbar">Ujian</div>
           </a>
         </li>

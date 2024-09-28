@@ -56,7 +56,7 @@ require './head.php';
 
           <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
-              <div class="col-lg-6 col-md-12 col-6 mb-4">
+              <div class="col-lg-6 col-md-6 col-sm-6 mb-4">
                 <div class="card">
                   <div class="card-body">
                     <div class="card-title d-flex align-items-start justify-content-between">
@@ -86,7 +86,7 @@ require './head.php';
                   </div>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-12 col-6 mb-4">
+              <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
                 <div class="card">
                   <div class="card-body">
                     <div class="card-title d-flex align-items-start justify-content-between">
@@ -116,7 +116,7 @@ require './head.php';
                   </div>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-12 col-6 mb-4">
+              <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
                 <div class="card">
                   <div class="card-body">
                     <div class="card-title d-flex align-items-start justify-content-between">
@@ -148,12 +148,12 @@ require './head.php';
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-12 col-md-12 col-6 mb-4">
+              <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
                 <div class="card">
                   <div class="card-body">
                     <div class="card-title">Peserta Didik</div>
                     <div class="row">
-                      <div class="col-lg-6 col-md-12 col-6 mb-4">
+                      <div class="col-lg-6 col-md-12 col-sm-6 mb-4">
                         <div class="card">
                           <div class="card-body">
                             <div class="card-title d-flex align-items-start justify-content-between">
@@ -183,7 +183,7 @@ require './head.php';
                           </div>
                         </div>
                       </div>
-                      <div class="col-lg-6 col-md-12 col-6 mb-4">
+                      <div class="col-lg-6 col-md-12 col-sm-6 mb-4">
                         <div class="card">
                           <div class="card-body">
                             <div class="card-title d-flex align-items-start justify-content-between">

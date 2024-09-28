@@ -17,10 +17,31 @@ $totaldata = mysqli_num_rows($data);
   data-template="vertical-menu-template-free">
 
 <!-- Head -->
-<?php require './head.php'; ?>
+
+<head>
+  <?php
+  require './head.php';
+  ?>
+
+</head>
 <!-- END HEAD -->
+<style>
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0;
+  }
+</style>
 
 <body onload="startTime()">
+  <div class="loader-wrapper">
+    <div class="loader-index"><span></span></div>
+    <svg>
+      <defs></defs>
+      <filter id="goo">
+        <fegaussianblur in="SourceGraphic" stddeviation="11" result="blur"></fegaussianblur>
+        <fecolormatrix in="blur" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"> </fecolormatrix>
+      </filter>
+    </svg>
+  </div>
   <!-- Layout wrapper -->
   <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
@@ -71,7 +92,6 @@ $totaldata = mysqli_num_rows($data);
                   </div>
                 </div>
                 <div class="table-responsive text-nowrap">
-
                   <table class="table table-hover" id="basic-1">
                     <thead>
                       <tr>
@@ -328,6 +348,7 @@ $totaldata = mysqli_num_rows($data);
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <!-- DataTables JS -->
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
   <script>
     $(document).ready(function() {

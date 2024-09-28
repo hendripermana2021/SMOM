@@ -16,18 +16,29 @@ $data_user = mysqli_fetch_array($check_user);
 
 if ($data_user) {
    $user = $data_user['email'];
+
    if ($user != NULL) {
+
       session_start();
       // Unset all session variables
       session_unset();
       // Destroy the session
       session_destroy();
-
-      echo "<script>alert('Anda Telah Mengakhiri Sesi Aplikasi');
-      document.location='../../login.php'</script>";
-      exit(); // Stop further execution after session destruction
+      echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+      echo '<script>
+          document.addEventListener("DOMContentLoaded", function() {
+              Swal.fire({
+                    title: "Success",
+                    text: "Anda Sudah Logout",
+                    icon: "success",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Ok"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "../../login.php";
+                    }
+                });
+          });
+      </script>';
    }
-   echo 'end1';
-} else {
-   echo 'end2';
 }

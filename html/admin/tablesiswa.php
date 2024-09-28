@@ -14,6 +14,12 @@ $totaldata = mysqli_num_rows($data);
 <?php require './head.php'; ?>
 <!-- END HEAD -->
 
+<style>
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0;
+  }
+</style>
+
 <body>
   <!-- Layout wrapper -->
   <div class="layout-wrapper layout-content-navbar">
@@ -135,7 +141,7 @@ $totaldata = mysqli_num_rows($data);
                                 <h5 class="modal-title">Update Data Siswa</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
-                              <form method="POST" action=""> <!-- pastikan action mengarah ke file PHP yang menangani update -->
+                              <form method="POST" action="">
                                 <input type="hidden" name="control" value="update">
                                 <input type="hidden" name="id_siswa" value="<?= $row['id_siswa'] ?>">
                                 <div class="modal-body">
@@ -152,7 +158,6 @@ $totaldata = mysqli_num_rows($data);
                                     <label class="col-sm-2 col-form-label">Sex</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
                                         <select class="form-select" name="sex" required>
                                           <option hidden>Pilih Gender</option>
                                           <option value="L" <?= $row['sex'] == 'L' ? 'selected' : '' ?>>Laki-laki</option>
@@ -165,7 +170,7 @@ $totaldata = mysqli_num_rows($data);
                                     <label class="col-sm-2 col-form-label">Kelas</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                        <span class="input-group-text"><i class="bx bx-chalkboard"></i></span>
                                         <select class="form-select" name="kelas" required>
                                           <option hidden>Pilih Kelas</option>
                                           <?php
@@ -201,7 +206,7 @@ $totaldata = mysqli_num_rows($data);
                                     <label class="col-sm-2 col-form-label">Status</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                        <span class="input-group-text"><i class="bx bx-toggle-left"></i></span>
                                         <select class="form-select" name="status" required>
                                           <option hidden>Pilih Status</option>
                                           <option value="Active" <?= $row['status'] == 'Active' ? 'selected' : '' ?>>Active</option>
@@ -214,7 +219,7 @@ $totaldata = mysqli_num_rows($data);
                                     <label class="col-sm-2 col-form-label">Email</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                        <span class="input-group-text"><i class="bx bx-envelope"></i></span>
                                         <input type="text" class="form-control" name="email" value="<?= $row['email'] ?>" required />
                                       </div>
                                     </div>
@@ -237,6 +242,7 @@ $totaldata = mysqli_num_rows($data);
                             </div>
                           </div>
                         </div>
+
 
                         <!-- Modal Delete -->
                         <div class="modal fade" id="delete<?= $row['id_siswa'] ?>" tabindex="-1" aria-hidden="true">
@@ -288,7 +294,7 @@ $totaldata = mysqli_num_rows($data);
             <h5 class="modal-title">Tambah Data Siswa</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <form method="POST" action=""> <!-- pastikan action mengarah ke file PHP yang menangani update -->
+          <form method="POST" action="">
             <input type="hidden" name="control" value="add">
             <div class="modal-body">
               <div class="row mb-3">
@@ -304,7 +310,6 @@ $totaldata = mysqli_num_rows($data);
                 <label class="col-sm-2 col-form-label">Sex</label>
                 <div class="col-sm-10">
                   <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-user"></i></span>
                     <select class="form-select" name="sex" required>
                       <option hidden>Pilih Gender</option>
                       <option value="L">Laki-laki</option>
@@ -317,7 +322,7 @@ $totaldata = mysqli_num_rows($data);
                 <label class="col-sm-2 col-form-label">Kelas</label>
                 <div class="col-sm-10">
                   <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-user"></i></span>
+                    <span class="input-group-text"><i class="bx bx-chalkboard"></i></span>
                     <select class="form-select" name="kelas" required>
                       <option hidden>Pilih Kelas</option>
                       <?php
@@ -351,7 +356,7 @@ $totaldata = mysqli_num_rows($data);
                 <label class="col-sm-2 col-form-label">Status</label>
                 <div class="col-sm-10">
                   <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-user"></i></span>
+                    <span class="input-group-text"><i class="bx bx-toggle-left"></i></span>
                     <select class="form-select" name="status" required>
                       <option hidden>Pilih Status</option>
                       <option value="Active">Active</option>
@@ -364,7 +369,7 @@ $totaldata = mysqli_num_rows($data);
                 <label class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-10">
                   <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-user"></i></span>
+                    <span class="input-group-text"><i class="bx bx-envelope"></i></span>
                     <input type="text" class="form-control" name="email" required />
                   </div>
                 </div>
@@ -387,6 +392,7 @@ $totaldata = mysqli_num_rows($data);
         </div>
       </div>
     </div>
+
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>
   </div>

@@ -2,56 +2,74 @@
 require '../../db/connect.php';
 
 if (isset($_POST['prosestest'])) {
-    // Melakukan sanitasi input untuk menghindari SQL Injection
-    $control = mysqli_real_escape_string($koneksi, $_POST['control']);
-    $title = mysqli_real_escape_string($koneksi, $_POST['title']);
-    $description = mysqli_real_escape_string($koneksi, $_POST['description']);
-    $totalscore = mysqli_real_escape_string($koneksi, $_POST['totalscore']);
-    $tingkat = mysqli_real_escape_string($koneksi, $_POST['tingkat']);
+    // Sanitize input to prevent SQL Injection
+    $control = $_POST['control'];
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $totalscore = $_POST['totalscore'];
+    $tingkat = $_POST['tingkat'];
+    $user_id = $_POST['user_id'];
 
     $created_at = date('Y-m-d H:i:s');
     $updated_at = date('Y-m-d H:i:s');
 
-    // Handling optional 'id_test' only if it exists (e.g., for update or delete)
-    $id_test = isset($_POST['id_test']) ? mysqli_real_escape_string($koneksi, $_POST['id_test']) : null;
+    // Handling optional 'id_test' only if it exists (for update or delete)
+    $id_test = isset($_POST['id_test']) ? $_POST['id_test'] : null;
 
-    // Initialize query variables
-    $query = "";
-    $query_type = "";
+    // Initialize prepared statement variables
+    $stmt = null;
 
     // Adjust query based on the control value
     if ($control == "add") {
-        $query = "INSERT INTO tbl_tests (title, description, totalscore, for_class, createdAt, updatedAt) 
-                  VALUES ('$title', '$description', '$totalscore', '$tingkat', '$created_at', '$updated_at')";
-        $query_type = "insert";
+        $stmt = $koneksi->prepare("INSERT INTO tbl_tests (title, description, totalscore, for_class, createdAt, updatedAt, id_users) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssisssi", $title, $description, $totalscore, $tingkat, $created_at, $updated_at, $user_id);
     } else if ($control == "update" && $id_test) {
-        $query = "UPDATE tbl_tests 
-                  SET title='$title', description='$description', totalscore='$totalscore', for_class='$tingkat', updatedAt='$updated_at'
-                  WHERE id='$id_test'";
-        $query_type = "update";
+        $stmt = $koneksi->prepare("UPDATE tbl_tests 
+                  SET title=?, description=?, totalscore=?, for_class=?, updatedAt=?
+                  WHERE id=?");
+        $stmt->bind_param("ssissi", $title, $description, $totalscore, $tingkat, $updated_at, $id_test);
     } else if ($control == "delete" && $id_test) {
-        $query = "DELETE FROM tbl_tests WHERE id='$id_test'";
-        $query_type = "delete";
+        $stmt = $koneksi->prepare("DELETE FROM tbl_tests WHERE id=?");
+        $stmt->bind_param("i", $id_test);
     }
 
-    // Execute query if set
-    if ($query) {
-        $result = mysqli_query($koneksi, $query);
-
-        if ($result) {
-            if ($query_type == "delete") {
-                // Additionally delete related questions if it's a delete operation
-                $deletequestion = mysqli_query($koneksi, "DELETE FROM tbl_questions WHERE id_test='$id_test'");
-            }
-            $_SESSION["sukses"] = 'Data Berhasil Diproses';
-        } else {
-            $_SESSION["error"] = 'Gagal Proses: ' . mysqli_error($koneksi);
+    // Execute query if statement is set
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+    if ($stmt && $stmt->execute()) {
+        if ($control == "delete") {
+            // Additionally delete related questions if it's a delete operation
+            $delete_question_stmt = $koneksi->prepare("DELETE FROM tbl_questions WHERE id_test=?");
+            $delete_question_stmt->bind_param("i", $id_test);
+            $delete_question_stmt->execute();
         }
+        echo '<script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    Swal.fire({
+                        title: "Success",
+                        text: "Data Berhasil Diproses",
+                        icon: "success",
+                        confirmButtonText: "Ok"
+                    }).then(() => {
+                        window.location.href = "' . $_SERVER['PHP_SELF'] . '";
+                    });
+                });
+              </script>';
     } else {
-        $_SESSION["error"] = 'Gagal Proses: Invalid Control or Missing ID';
+        echo '<script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Gagal Proses: ' . $koneksi->error . '",
+                        icon: "error",
+                        confirmButtonText: "Ok"
+                    }).then(() => {
+                        window.history.back();
+                    });
+                });
+              </script>';
     }
 
-    // Redirect back to the same page
-    header('Location: ' . $_SERVER['PHP_SELF']);
-    exit;
+    $stmt->close();
+    $koneksi->close();
 }

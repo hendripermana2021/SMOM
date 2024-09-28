@@ -2,6 +2,8 @@
 require '../../db/connect.php';
 
 if (isset($_POST['prosesguru'])) {
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+
     // Melakukan sanitasi input untuk menghindari SQL Injection
     $control = mysqli_real_escape_string($koneksi, $_POST['control']);
     $name_user = mysqli_real_escape_string($koneksi, $_POST['name_user']);
@@ -11,7 +13,7 @@ if (isset($_POST['prosesguru'])) {
     $email = mysqli_real_escape_string($koneksi, $_POST['email']);
     $real_password = mysqli_real_escape_string($koneksi, $_POST['password']);
     $password_md5 = md5($real_password); // Password hashed using md5
-    $role_id = 2; // Password hashed using md5
+    $role_id = 2;
     $created_at = date('Y-m-d H:i:s');
     $updated_at = date('Y-m-d H:i:s');
 
@@ -32,11 +34,38 @@ if (isset($_POST['prosesguru'])) {
 
     // Handling the result of the queries
     if ((isset($insert) && $insert) || (isset($update) && $update) || (isset($delete) && $delete)) {
-        $_SESSION["sukses"] = 'Data Berhasil Diproses';
+        echo '<script>
+            document.addEventListener("DOMContentLoaded", function() {
+                Swal.fire({
+                    title: "Success",
+                    text: "Data Berhasil Diproses",
+                    icon: "success",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Ok"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "' . $_SERVER['PHP_SELF'] . '";
+                    }
+                });
+            });
+        </script>';
     } else {
-        $_SESSION["error"] = 'Gagal Proses';
+        echo '<script>
+            document.addEventListener("DOMContentLoaded", function() {
+                Swal.fire({
+                    title: "Error",
+                    text: "Gagal Proses",
+                    icon: "error",
+                    confirmButtonColor: "#d33",
+                    confirmButtonText: "Ok"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.history.back();
+                    }
+                });
+            });
+        </script>';
     }
 
-    header('Location: ' . $_SERVER['PHP_SELF']);
     exit;
 }

@@ -22,5 +22,5 @@
     <link rel="stylesheet" href="css/aos.css">
     <link rel="stylesheet" href="css/style.css">
 
-    <title>Learner Free Bootstrap Template by Untree.co</title>
+    <title>SMOM Apps</title>
 </head>

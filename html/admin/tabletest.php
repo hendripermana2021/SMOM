@@ -194,18 +194,19 @@ $totaldata = mysqli_num_rows($data);
                     </tbody>
                   </table>
                 </div>
-                </>
               </div>
             </div>
             <!-- / Content -->
 
-            <!-- Footer -->
-            <?php require 'footer.php'; ?>
-            <!-- / Footer -->
+
 
             <div class="content-backdrop fade"></div>
           </div>
           <!-- Content wrapper -->
+
+          <!-- Footer -->
+          <?php require 'footer.php'; ?>
+          <!-- / Footer -->
         </div>
         <!-- / Layout page -->
       </div>

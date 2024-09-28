@@ -2,6 +2,8 @@
 require '../../db/connect.php';
 
 if (isset($_POST['proseskelas'])) {
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+
     // Sanitize input to prevent SQL Injection
     $control = mysqli_real_escape_string($koneksi, $_POST['control']);
     $name_kelas = mysqli_real_escape_string($koneksi, $_POST['name_kelas']);
@@ -27,11 +29,38 @@ if (isset($_POST['proseskelas'])) {
 
     // Handling the result of the queries
     if ((isset($insert) && $insert) || (isset($update) && $update) || (isset($delete) && $delete)) {
-        $_SESSION["sukses"] = 'Data Berhasil Diproses';
+        echo '<script>
+            document.addEventListener("DOMContentLoaded", function() {
+                Swal.fire({
+                    title: "Success",
+                    text: "Data Berhasil Diproses",
+                    icon: "success",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Ok"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "' . $_SERVER['PHP_SELF'] . '";
+                    }
+                });
+            });
+        </script>';
     } else {
-        $_SESSION["error"] = 'Gagal Proses';
+        echo '<script>
+            document.addEventListener("DOMContentLoaded", function() {
+                Swal.fire({
+                    title: "Error",
+                    text: "Gagal Proses",
+                    icon: "error",
+                    confirmButtonColor: "#d33",
+                    confirmButtonText: "Ok"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.history.back();
+                    }
+                });
+            });
+        </script>';
     }
 
-    header('Location: ' . $_SERVER['PHP_SELF']);
     exit;
 }

@@ -12,6 +12,9 @@ if (isset($_POST['prosesmodul'])) {
     $created_at = date('Y-m-d H:i:s');
     $updated_at = date('Y-m-d H:i:s');
 
+    // Include SweetAlert2
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
+
     if ($control == "add") {
         // Insert query
         $insert = mysqli_query($koneksi, "INSERT INTO tbl_modul_contents (id_modul, section, content, createdAt, updatedAt, position) 
@@ -19,14 +22,39 @@ if (isset($_POST['prosesmodul'])) {
 
         // Check if the insert was successful
         if ($insert) {
-            header('Location: ../html/admin/tablemodul-detail.php?id=' . $id_modul);
+            // Success alert
+            echo '<script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        Swal.fire({
+                            title: "Success",
+                            text: "Data berhasil ditambahkan.",
+                            icon: "success",
+                            confirmButtonText: "Ok"
+                        }).then(() => {
+                            window.location.href = "../html/admin/tablemodul-detail.php?id=' . $id_modul . '";
+                        });
+                    });
+                  </script>';
             exit();
         } else {
-            $_SESSION["error"] = 'Gagal Menambahkan Data';
+            // Error alert
+            echo '<script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Gagal Menambahkan Data: ' . mysqli_error($koneksi) . '",
+                            icon: "error",
+                            confirmButtonText: "Ok"
+                        }).then(() => {
+                            window.location.href = "../html/admin/tablemodul-detail.php?id=' . $id_modul . '";
+                        });
+                    });
+                  </script>';
+            exit();
         }
     }
 
-    // Redirect to a success/failure page or back to the form
+    // If the control is not "add", redirect to the details page
     header('Location: ../html/admin/tablemodul-detail.php?id=' . $id_modul);
     exit();
 }

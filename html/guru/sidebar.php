@@ -1,3 +1,6 @@
+<?php
+$menu = $_GET['open'];
+?>
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
     <a href="index.html" class="app-brand-link">
@@ -62,33 +65,33 @@
   <li class="menu-header small text-uppercase"><span class="menu-header-text">Aplikasi SMOM</span></li>
   <ul class="menu-inner py-1">
     <!-- Dashboard -->
-    <li class="menu-item">
-      <a href="../guru/" class="menu-link">
+    <li class="menu-item active">
+      <a href="../guru/" class="menu-link ">
         <i class="menu-icon tf-icons bx bx-home-circle"></i>
         <div data-i18n="Analytics">Dashboard Guru</div>
       </a>
     </li>
 
     <!-- Layouts -->
-    <li class="menu-item">
+    <li class="menu-item <?= $menu == 'siswa' || $menu == 'modul' || $menu == 'test' ? 'open active' : '' ?>">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-layout"></i>
         <div data-i18n="Layouts">Pembelajaran</div>
       </a>
 
       <ul class="menu-sub">
-        <li class="menu-item">
-          <a href="tablesiswa.php" class="menu-link">
+        <li class="menu-item <?= $menu == 'siswa' ? 'active' : '' ?>">
+          <a href="tablesiswa.php?open=siswa" class="menu-link">
             <div data-i18n="tablekelas">Peserta Didik</div>
           </a>
         </li>
-        <li class="menu-item">
-          <a href="tablemodul.php" class="menu-link">
+        <li class="menu-item <?= $menu == 'modul' ? 'active' : '' ?>">
+          <a href="tablemodul.php?open=modul" class="menu-link">
             <div data-i18n="Module">Module</div>
           </a>
         </li>
-        <li class="menu-item">
-          <a href="tabletest.php" class="menu-link">
+        <li class="menu-item <?= $menu == 'test' ? 'active' : '' ?>">
+          <a href="tabletest.php?open=test" class="menu-link">
             <div data-i18n="Test">Test</div>
           </a>
         </li>

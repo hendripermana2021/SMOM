@@ -22,6 +22,11 @@ ON
 <!-- Head -->
 <?php require './head.php'; ?>
 <!-- END HEAD -->
+<style>
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0;
+  }
+</style>
 
 <body>
   <!-- Layout wrapper -->
@@ -118,7 +123,7 @@ ON
                                     <label class="col-sm-2 col-form-label">Name Kelas</label>
                                     <div class="col-sm-10">
                                       <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                        <span class="input-group-text"><i class="bx bx-user-circle"></i></span> <!-- Adjusted Icon -->
                                         <input type="text" class="form-control" name="name_kelas" value="<?= htmlspecialchars($row['name_class']) ?>" required />
                                       </div>
                                     </div>
@@ -159,6 +164,7 @@ ON
                             </div>
                           </div>
                         </div>
+
 
                         <!-- Modal Delete -->
                         <div class="modal fade" id="delete<?= $row['id_kelas'] ?>" tabindex="-1" aria-hidden="true">
@@ -206,7 +212,7 @@ ON
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Update Data Kelas</h5>
+            <h5 class="modal-title">Add Data Kelas</h5> <!-- Updated title for clarity -->
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <form method="POST" action="">
@@ -216,7 +222,7 @@ ON
                 <label class="col-sm-2 col-form-label">Name Kelas</label>
                 <div class="col-sm-10">
                   <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-user"></i></span>
+                    <span class="input-group-text"><i class="bx bx-user-circle"></i></span> <!-- Adjusted Icon -->
                     <input type="text" class="form-control" name="name_kelas" required />
                   </div>
                 </div>
@@ -238,7 +244,7 @@ ON
                   <select class="form-select" name="walkes" required>
                     <option selected hidden>Pilih Wali Kelas</option>
                     <?php
-                    $walikelas = tampildata("SELECT * FROM tbl_gurus where role_id=2");
+                    $walikelas = tampildata("SELECT * FROM tbl_gurus WHERE role_id=2");
                     foreach ($walikelas as $option) : ?>
                       <option value="<?= $option['id'] ?>">
                         <?= $option['name_guru'] ?>
@@ -256,6 +262,8 @@ ON
         </div>
       </div>
     </div>
+
+
 
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>

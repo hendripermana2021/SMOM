@@ -14,9 +14,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $content = $_POST['content'];
     $position = $_POST['position'];
 
-    // Check for empty fields
+    // Check for empty fields   // Check for empty fields
     if (empty($content) || empty($id_modul) || empty($section) || empty($id_content) || empty($position)) {
-        echo 'Data Kosong';
+        echo '<script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Data tidak boleh kosong",
+                        icon: "error",
+                        confirmButtonText: "Ok"
+                    }).then(() => {
+                        window.history.back();
+                    });
+                });
+              </script>';
         exit(); // Stop execution if there are empty fields
     }
 
@@ -27,12 +38,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Bind the parameters in the correct order
     $stmt->bind_param('ssii', $section, $content, $position, $id_content);
 
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>';
     if ($stmt->execute()) {
-        header('Location: ../html/admin/tablemodul-detail.php?id=' . $id_modul);
-        exit(); // Ensure the script stops after redirection
+        echo '<script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    Swal.fire({
+                        title: "Success",
+                        text: "Data berhasil diperbarui",
+                        icon: "success",
+                        confirmButtonText: "Ok"
+                    }).then(() => {
+                        window.location.href = "../html/admin/tablemodul-detail.php?id=' . $id_modul . '";
+                    });
+                });
+              </script>';
     } else {
-        // Handle error
-        echo "Error: " . $stmt->error;
+        // Handle error with SweetAlert
+        echo '<script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Gagal memperbarui data: ' . $stmt->error . '",
+                        icon: "error",
+                        confirmButtonText: "Ok"
+                    }).then(() => {
+                        window.history.back();
+                    });
+                });
+              </script>';
     }
 
     $stmt->close();

@@ -11,8 +11,15 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../../assets/" data-template="vertical-menu-template-free">
 
 <!-- Head -->
-<?php require './head.php'; ?>
+<?php require 'head.php'; ?>
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
 <!-- END HEAD -->
 
 <body>
@@ -26,7 +33,7 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
       <!-- Layout container -->
       <div class="layout-page">
         <!-- Navbar -->
-        <?php require 'navbar.php'; ?>
+        <?php require '../admin/navbar.php'; ?>
         <!-- / Navbar -->
 
         <!-- Content wrapper -->
@@ -63,9 +70,7 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
                     </div>
                   </div>
                 </div>
-                <h5 class="card-header p-0 pb-3">Table Question</h5>
                 <div class="table-responsive text-nowrap">
-
                   <table class="table table-hover" id="basic-1">
                     <thead>
                       <tr>
@@ -134,18 +139,63 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
                                 <input type="hidden" name="control" value="edit">
                                 <input type="hidden" name="id_test" value="<?= htmlspecialchars($id) ?>">
                                 <input type="hidden" name="id_question" value="<?= $row['id'] ?>">
-                                <input type="hidden" name="optionA" />
-                                <input type="hidden" name="optionB" />
-                                <input type="hidden" name="optionC" />
-                                <input type="hidden" name="optionD" />
+                                <input type="hidden" name="question" id="question<?= $row['id'] ?>">
+                                <input type="hidden" name="optionA" id="optionA<?= $row['id'] ?>">
+                                <input type="hidden" name="optionB" id="optionB<?= $row['id'] ?>">
+                                <input type="hidden" name="optionC" id="optionC<?= $row['id'] ?>">
+                                <input type="hidden" name="optionD" id="optionD<?= $row['id'] ?>">
 
                                 <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
                                   <div class="row mb-3">
                                     <label class="col-sm-2 col-form-label">Question</label>
                                     <div class="col-sm-10">
-                                      <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-user"></i></span>
-                                        <input type="text" class="form-control" name="text_question" value="<?= $question['text_question'] ?>" required />
+                                      <div id="toolbar-containerQuestion<?= $row['id'] ?>">
+                                        <span class="ql-formats">
+                                          <select class="ql-font"></select>
+                                          <select class="ql-size"></select>
+                                        </span>
+                                        <span class="ql-formats">
+                                          <button class="ql-bold"></button>
+                                          <button class="ql-italic"></button>
+                                          <button class="ql-underline"></button>
+                                          <button class="ql-strike"></button>
+                                        </span>
+                                        <span class="ql-formats">
+                                          <select class="ql-color"></select>
+                                          <select class="ql-background"></select>
+                                        </span>
+                                        <span class="ql-formats">
+                                          <button class="ql-script" value="sub"></button>
+                                          <button class="ql-script" value="super"></button>
+                                        </span>
+                                        <span class="ql-formats">
+                                          <button class="ql-header" value="1"></button>
+                                          <button class="ql-header" value="2"></button>
+                                          <button class="ql-blockquote"></button>
+                                          <button class="ql-code-block"></button>
+                                        </span>
+                                        <span class="ql-formats">
+                                          <button class="ql-list" value="ordered"></button>
+                                          <button class="ql-list" value="bullet"></button>
+                                          <button class="ql-indent" value="-1"></button>
+                                          <button class="ql-indent" value="+1"></button>
+                                        </span>
+                                        <span class="ql-formats">
+                                          <button class="ql-direction" value="rtl"></button>
+                                          <select class="ql-align"></select>
+                                        </span>
+                                        <span class="ql-formats">
+                                          <button class="ql-link"></button>
+                                          <button class="ql-image"></button>
+                                          <button class="ql-video"></button>
+                                          <button class="ql-formula"></button>
+                                        </span>
+                                        <span class="ql-formats">
+                                          <button class="ql-clean"></button>
+                                        </span>
+                                      </div>
+                                      <div id="editorQuestion<?= $row['id'] ?>" style="height: 200px;">
+                                        <?= $row['text_question'] ?>
                                       </div>
                                     </div>
                                   </div>
@@ -181,7 +231,54 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
                                           <div class="card overflow-hidden mb-4" style="height: 300px;">
                                             <h5 class="card-header">Option A</h5>
                                             <div class="card-body" style="overflow-y: auto;">
-                                              <textarea class="form-control" name="optionA" rows="5"><?= htmlspecialchars($optionA) ?></textarea>
+                                              <div id="toolbar-containerA<?= $row['id'] ?>">
+                                                <span class="ql-formats">
+                                                  <select class="ql-font"></select>
+                                                  <select class="ql-size"></select>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-bold"></button>
+                                                  <button class="ql-italic"></button>
+                                                  <button class="ql-underline"></button>
+                                                  <button class="ql-strike"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <select class="ql-color"></select>
+                                                  <select class="ql-background"></select>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-script" value="sub"></button>
+                                                  <button class="ql-script" value="super"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-header" value="1"></button>
+                                                  <button class="ql-header" value="2"></button>
+                                                  <button class="ql-blockquote"></button>
+                                                  <button class="ql-code-block"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-list" value="ordered"></button>
+                                                  <button class="ql-list" value="bullet"></button>
+                                                  <button class="ql-indent" value="-1"></button>
+                                                  <button class="ql-indent" value="+1"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-direction" value="rtl"></button>
+                                                  <select class="ql-align"></select>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-link"></button>
+                                                  <button class="ql-image"></button>
+                                                  <button class="ql-video"></button>
+                                                  <button class="ql-formula"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-clean"></button>
+                                                </span>
+                                              </div>
+                                              <div id="editorA<?= $row['id'] ?>" style="height: 200px;">
+                                                <?= $optionA ?>
+                                              </div>
                                             </div>
                                           </div>
                                         </div>
@@ -189,7 +286,54 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
                                           <div class="card overflow-hidden mb-4" style="height: 300px;">
                                             <h5 class="card-header">Option C</h5>
                                             <div class="card-body" style="overflow-y: auto;">
-                                              <textarea class="form-control" name="optionC" rows="5"><?= htmlspecialchars($optionC) ?></textarea>
+                                              <div id="toolbar-containerC<?= $row['id'] ?>">
+                                                <span class="ql-formats">
+                                                  <select class="ql-font"></select>
+                                                  <select class="ql-size"></select>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-bold"></button>
+                                                  <button class="ql-italic"></button>
+                                                  <button class="ql-underline"></button>
+                                                  <button class="ql-strike"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <select class="ql-color"></select>
+                                                  <select class="ql-background"></select>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-script" value="sub"></button>
+                                                  <button class="ql-script" value="super"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-header" value="1"></button>
+                                                  <button class="ql-header" value="2"></button>
+                                                  <button class="ql-blockquote"></button>
+                                                  <button class="ql-code-block"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-list" value="ordered"></button>
+                                                  <button class="ql-list" value="bullet"></button>
+                                                  <button class="ql-indent" value="-1"></button>
+                                                  <button class="ql-indent" value="+1"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-direction" value="rtl"></button>
+                                                  <select class="ql-align"></select>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-link"></button>
+                                                  <button class="ql-image"></button>
+                                                  <button class="ql-video"></button>
+                                                  <button class="ql-formula"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-clean"></button>
+                                                </span>
+                                              </div>
+                                              <div id="editorC<?= $row['id'] ?>" style="height: 200px;">
+                                                <?= $optionC ?>
+                                              </div>
                                             </div>
                                           </div>
                                         </div>
@@ -199,7 +343,54 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
                                           <div class="card overflow-hidden mb-4" style="height: 300px;">
                                             <h5 class="card-header">Option B</h5>
                                             <div class="card-body" style="overflow-y: auto;">
-                                              <textarea class="form-control" name="optionB" rows="5"><?= htmlspecialchars($optionB) ?></textarea>
+                                              <div id="toolbar-containerB<?= $row['id'] ?>">
+                                                <span class="ql-formats">
+                                                  <select class="ql-font"></select>
+                                                  <select class="ql-size"></select>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-bold"></button>
+                                                  <button class="ql-italic"></button>
+                                                  <button class="ql-underline"></button>
+                                                  <button class="ql-strike"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <select class="ql-color"></select>
+                                                  <select class="ql-background"></select>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-script" value="sub"></button>
+                                                  <button class="ql-script" value="super"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-header" value="1"></button>
+                                                  <button class="ql-header" value="2"></button>
+                                                  <button class="ql-blockquote"></button>
+                                                  <button class="ql-code-block"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-list" value="ordered"></button>
+                                                  <button class="ql-list" value="bullet"></button>
+                                                  <button class="ql-indent" value="-1"></button>
+                                                  <button class="ql-indent" value="+1"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-direction" value="rtl"></button>
+                                                  <select class="ql-align"></select>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-link"></button>
+                                                  <button class="ql-image"></button>
+                                                  <button class="ql-video"></button>
+                                                  <button class="ql-formula"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-clean"></button>
+                                                </span>
+                                              </div>
+                                              <div id="editorB<?= $row['id'] ?>" style="height: 200px;">
+                                                <?= $optionB ?>
+                                              </div>
                                             </div>
                                           </div>
                                         </div>
@@ -207,7 +398,54 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
                                           <div class="card overflow-hidden mb-4" style="height: 300px;">
                                             <h5 class="card-header">Option D</h5>
                                             <div class="card-body" style="overflow-y: auto;">
-                                              <textarea class="form-control" name="optionD" rows="5"><?= htmlspecialchars($optionD) ?></textarea>
+                                              <div id="toolbar-containerD<?= $row['id'] ?>">
+                                                <span class="ql-formats">
+                                                  <select class="ql-font"></select>
+                                                  <select class="ql-size"></select>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-bold"></button>
+                                                  <button class="ql-italic"></button>
+                                                  <button class="ql-underline"></button>
+                                                  <button class="ql-strike"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <select class="ql-color"></select>
+                                                  <select class="ql-background"></select>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-script" value="sub"></button>
+                                                  <button class="ql-script" value="super"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-header" value="1"></button>
+                                                  <button class="ql-header" value="2"></button>
+                                                  <button class="ql-blockquote"></button>
+                                                  <button class="ql-code-block"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-list" value="ordered"></button>
+                                                  <button class="ql-list" value="bullet"></button>
+                                                  <button class="ql-indent" value="-1"></button>
+                                                  <button class="ql-indent" value="+1"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-direction" value="rtl"></button>
+                                                  <select class="ql-align"></select>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-link"></button>
+                                                  <button class="ql-image"></button>
+                                                  <button class="ql-video"></button>
+                                                  <button class="ql-formula"></button>
+                                                </span>
+                                                <span class="ql-formats">
+                                                  <button class="ql-clean"></button>
+                                                </span>
+                                              </div>
+                                              <div id="editorD<?= $row['id'] ?>" style="height: 200px;">
+                                                <?= $optionD ?>
+                                              </div>
                                             </div>
                                           </div>
                                         </div>
@@ -223,6 +461,58 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
                             </div>
                           </div>
                         </div>
+
+                        <script>
+                          const quillQuestion<?= $row['id'] ?> = new Quill('#editorQuestion<?= $row['id'] ?>', {
+                            modules: {
+                              syntax: true,
+                              toolbar: '#toolbar-containerQuestion<?= $row['id'] ?>',
+                            },
+                            placeholder: 'Compose an epic...',
+                            theme: 'snow',
+                          });
+                          const quillA<?= $row['id'] ?> = new Quill('#editorA<?= $row['id'] ?>', {
+                            modules: {
+                              syntax: true,
+                              toolbar: '#toolbar-containerA<?= $row['id'] ?>',
+                            },
+                            placeholder: 'Compose an epic...',
+                            theme: 'snow',
+                          });
+                          const quillB<?= $row['id'] ?> = new Quill('#editorB<?= $row['id'] ?>', {
+                            modules: {
+                              syntax: true,
+                              toolbar: '#toolbar-containerB<?= $row['id'] ?>',
+                            },
+                            placeholder: 'Compose an epic...',
+                            theme: 'snow',
+                          });
+                          const quillC<?= $row['id'] ?> = new Quill('#editorC<?= $row['id'] ?>', {
+                            modules: {
+                              syntax: true,
+                              toolbar: '#toolbar-containerC<?= $row['id'] ?>',
+                            },
+                            placeholder: 'Compose an epic...',
+                            theme: 'snow',
+                          });
+                          const quillD<?= $row['id'] ?> = new Quill('#editorD<?= $row['id'] ?>', {
+                            modules: {
+                              syntax: true,
+                              toolbar: '#toolbar-containerD<?= $row['id'] ?>',
+                            },
+                            placeholder: 'Compose an epic...',
+                            theme: 'snow',
+                          });
+                        </script>
+                        <script>
+                          document.querySelector('#ubah-form-<?= $row['id'] ?>').onsubmit = function() {
+                            document.querySelector('#question<?= $row['id'] ?>').value = quillQuestion<?= $row['id'] ?>.root.innerHTML;
+                            document.querySelector('#optionA<?= $row['id'] ?>').value = quillA<?= $row['id'] ?>.root.innerHTML;
+                            document.querySelector('#optionB<?= $row['id'] ?>').value = quillB<?= $row['id'] ?>.root.innerHTML;
+                            document.querySelector('#optionC<?= $row['id'] ?>').value = quillC<?= $row['id'] ?>.root.innerHTML;
+                            document.querySelector('#optionD<?= $row['id'] ?>').value = quillD<?= $row['id'] ?>.root.innerHTML;
+                          };
+                        </script>
 
                         <div class="modal fade" id="delete<?= $row['id'] ?>" tabindex="-1" aria-hidden="true">
                           <div class="modal-dialog modal-md" role="document">
@@ -257,7 +547,7 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
         <!-- / Content -->
 
         <!-- Footer -->
-        <?php require 'footer.php'; ?>
+        <?php require '../admin/footer.php'; ?>
         <!-- / Footer -->
 
         <div class="content-backdrop fade"></div>
@@ -271,21 +561,65 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
             <h5 class="modal-title">Tambah Question</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <form id="add-form" method="POST" action="../../controller/question.php">
+          <form id="add-question" method="POST" action="../../controller/addquestion.php">
             <input type="hidden" name="control" value="insert">
+            <input type="hidden" name="question" id="question">
+            <input type="hidden" name="optionA" id="optionA">
+            <input type="hidden" name="optionB" id="optionB">
+            <input type="hidden" name="optionC" id="optionC">
+            <input type="hidden" name="optionD" id="optionD">
             <input type="hidden" name="id_test" value="<?= htmlspecialchars($id) ?>">
-            <input type="hidden" name="optionA">
-            <input type="hidden" name="optionB">
-            <input type="hidden" name="optionC">
-            <input type="hidden" name="optionD">
 
             <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Question</label>
                 <div class="col-sm-10">
-                  <div class="input-group input-group-merge">
-                    <span class="input-group-text"><i class="bx bx-user"></i></span>
-                    <input type="text" class="form-control" name="text_question" placeholder="Enter Question" required />
+                  <div id="toolbar-containerQuestion">
+                    <span class="ql-formats">
+                      <select class="ql-font"></select>
+                      <select class="ql-size"></select>
+                    </span>
+                    <span class="ql-formats">
+                      <button class="ql-bold"></button>
+                      <button class="ql-italic"></button>
+                      <button class="ql-underline"></button>
+                      <button class="ql-strike"></button>
+                    </span>
+                    <span class="ql-formats">
+                      <select class="ql-color"></select>
+                      <select class="ql-background"></select>
+                    </span>
+                    <span class="ql-formats">
+                      <button class="ql-script" value="sub"></button>
+                      <button class="ql-script" value="super"></button>
+                    </span>
+                    <span class="ql-formats">
+                      <button class="ql-header" value="1"></button>
+                      <button class="ql-header" value="2"></button>
+                      <button class="ql-blockquote"></button>
+                      <button class="ql-code-block"></button>
+                    </span>
+                    <span class="ql-formats">
+                      <button class="ql-list" value="ordered"></button>
+                      <button class="ql-list" value="bullet"></button>
+                      <button class="ql-indent" value="-1"></button>
+                      <button class="ql-indent" value="+1"></button>
+                    </span>
+                    <span class="ql-formats">
+                      <button class="ql-direction" value="rtl"></button>
+                      <select class="ql-align"></select>
+                    </span>
+                    <span class="ql-formats">
+                      <button class="ql-link"></button>
+                      <button class="ql-image"></button>
+                      <button class="ql-video"></button>
+                      <button class="ql-formula"></button>
+                    </span>
+                    <span class="ql-formats">
+                      <button class="ql-clean"></button>
+                    </span>
+                  </div>
+                  <div id="editorQuestion" style="height: 200px;">
                   </div>
                 </div>
               </div>
@@ -321,7 +655,53 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
                       <div class="card overflow-hidden mb-4" style="height: 300px;">
                         <h5 class="card-header">Option A</h5>
                         <div class="card-body" style="overflow-y: auto;">
-                          <textarea name="optionA" class="form-control" rows="10" placeholder="Enter Option A"></textarea>
+                          <div id="toolbar-containerA">
+                            <span class="ql-formats">
+                              <select class="ql-font"></select>
+                              <select class="ql-size"></select>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-bold"></button>
+                              <button class="ql-italic"></button>
+                              <button class="ql-underline"></button>
+                              <button class="ql-strike"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <select class="ql-color"></select>
+                              <select class="ql-background"></select>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-script" value="sub"></button>
+                              <button class="ql-script" value="super"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-header" value="1"></button>
+                              <button class="ql-header" value="2"></button>
+                              <button class="ql-blockquote"></button>
+                              <button class="ql-code-block"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-list" value="ordered"></button>
+                              <button class="ql-list" value="bullet"></button>
+                              <button class="ql-indent" value="-1"></button>
+                              <button class="ql-indent" value="+1"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-direction" value="rtl"></button>
+                              <select class="ql-align"></select>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-link"></button>
+                              <button class="ql-image"></button>
+                              <button class="ql-video"></button>
+                              <button class="ql-formula"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-clean"></button>
+                            </span>
+                          </div>
+                          <div id="editorA" style="height: 200px;">
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -329,7 +709,53 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
                       <div class="card overflow-hidden mb-4" style="height: 300px;">
                         <h5 class="card-header">Option C</h5>
                         <div class="card-body" style="overflow-y: auto;">
-                          <textarea name="optionC" class="form-control" rows="10" placeholder="Enter Option C"></textarea>
+                          <div id="toolbar-containerC">
+                            <span class="ql-formats">
+                              <select class="ql-font"></select>
+                              <select class="ql-size"></select>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-bold"></button>
+                              <button class="ql-italic"></button>
+                              <button class="ql-underline"></button>
+                              <button class="ql-strike"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <select class="ql-color"></select>
+                              <select class="ql-background"></select>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-script" value="sub"></button>
+                              <button class="ql-script" value="super"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-header" value="1"></button>
+                              <button class="ql-header" value="2"></button>
+                              <button class="ql-blockquote"></button>
+                              <button class="ql-code-block"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-list" value="ordered"></button>
+                              <button class="ql-list" value="bullet"></button>
+                              <button class="ql-indent" value="-1"></button>
+                              <button class="ql-indent" value="+1"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-direction" value="rtl"></button>
+                              <select class="ql-align"></select>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-link"></button>
+                              <button class="ql-image"></button>
+                              <button class="ql-video"></button>
+                              <button class="ql-formula"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-clean"></button>
+                            </span>
+                          </div>
+                          <div id="editorC" style="height: 200px;">
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -339,7 +765,53 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
                       <div class="card overflow-hidden mb-4" style="height: 300px;">
                         <h5 class="card-header">Option B</h5>
                         <div class="card-body" style="overflow-y: auto;">
-                          <textarea name="optionB" class="form-control" rows="10" placeholder="Enter Option B"></textarea>
+                          <div id="toolbar-containerB">
+                            <span class="ql-formats">
+                              <select class="ql-font"></select>
+                              <select class="ql-size"></select>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-bold"></button>
+                              <button class="ql-italic"></button>
+                              <button class="ql-underline"></button>
+                              <button class="ql-strike"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <select class="ql-color"></select>
+                              <select class="ql-background"></select>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-script" value="sub"></button>
+                              <button class="ql-script" value="super"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-header" value="1"></button>
+                              <button class="ql-header" value="2"></button>
+                              <button class="ql-blockquote"></button>
+                              <button class="ql-code-block"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-list" value="ordered"></button>
+                              <button class="ql-list" value="bullet"></button>
+                              <button class="ql-indent" value="-1"></button>
+                              <button class="ql-indent" value="+1"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-direction" value="rtl"></button>
+                              <select class="ql-align"></select>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-link"></button>
+                              <button class="ql-image"></button>
+                              <button class="ql-video"></button>
+                              <button class="ql-formula"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-clean"></button>
+                            </span>
+                          </div>
+                          <div id="editorB" style="height: 200px;">
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -347,7 +819,53 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
                       <div class="card overflow-hidden mb-4" style="height: 300px;">
                         <h5 class="card-header">Option D</h5>
                         <div class="card-body" style="overflow-y: auto;">
-                          <textarea name="optionD" class="form-control" rows="10" placeholder="Enter Option D"></textarea>
+                          <div id="toolbar-containerD">
+                            <span class="ql-formats">
+                              <select class="ql-font"></select>
+                              <select class="ql-size"></select>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-bold"></button>
+                              <button class="ql-italic"></button>
+                              <button class="ql-underline"></button>
+                              <button class="ql-strike"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <select class="ql-color"></select>
+                              <select class="ql-background"></select>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-script" value="sub"></button>
+                              <button class="ql-script" value="super"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-header" value="1"></button>
+                              <button class="ql-header" value="2"></button>
+                              <button class="ql-blockquote"></button>
+                              <button class="ql-code-block"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-list" value="ordered"></button>
+                              <button class="ql-list" value="bullet"></button>
+                              <button class="ql-indent" value="-1"></button>
+                              <button class="ql-indent" value="+1"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-direction" value="rtl"></button>
+                              <select class="ql-align"></select>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-link"></button>
+                              <button class="ql-image"></button>
+                              <button class="ql-video"></button>
+                              <button class="ql-formula"></button>
+                            </span>
+                            <span class="ql-formats">
+                              <button class="ql-clean"></button>
+                            </span>
+                          </div>
+                          <div id="editorD" style="height: 200px;">
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -366,6 +884,74 @@ $query = tampildata("SELECT * from tbl_questions where id_test=$id");
     <!-- / Layout container -->
   </div>
   <!-- / Layout wrapper -->
+
+  <script>
+    const quillQuestion = new Quill('#editorQuestion', {
+      modules: {
+        syntax: true,
+        toolbar: '#toolbar-containerQuestion',
+      },
+      placeholder: 'Compose an epic...',
+      theme: 'snow',
+    });
+    const quillA = new Quill('#editorA', {
+      modules: {
+        syntax: true,
+        toolbar: '#toolbar-containerA',
+      },
+      placeholder: 'Compose an epic...',
+      theme: 'snow',
+    });
+    const quillB = new Quill('#editorB', {
+      modules: {
+        syntax: true,
+        toolbar: '#toolbar-containerB',
+      },
+      placeholder: 'Compose an epic...',
+      theme: 'snow',
+    });
+    const quillC = new Quill('#editorC', {
+      modules: {
+        syntax: true,
+        toolbar: '#toolbar-containerC',
+      },
+      placeholder: 'Compose an epic...',
+      theme: 'snow',
+    });
+    const quillD = new Quill('#editorD', {
+      modules: {
+        syntax: true,
+        toolbar: '#toolbar-containerD',
+      },
+      placeholder: 'Compose an epic...',
+      theme: 'snow',
+    });
+  </script>
+  <script>
+    document.querySelector('#add-question').onsubmit = function() {
+      document.querySelector('#question').value = quillQuestion.root.innerHTML;
+      document.querySelector('#optionA').value = quillA.root.innerHTML;
+      document.querySelector('#optionB').value = quillB.root.innerHTML;
+      document.querySelector('#optionC').value = quillC.root.innerHTML;
+      document.querySelector('#optionD').value = quillD.root.innerHTML;
+    };
+  </script>
+
+
+  <!-- jQuery (required for DataTables) -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#basic-1').DataTable();
+    });
+  </script>
+
+
+
 
   <!-- Core JS -->
   <!-- build:js assets/vendor/js/core.js -->

@@ -48,31 +48,36 @@ if (isset($_POST['login'])) {
                $roles = $r['role_id'];
 
                // Redirect based on role
-               // Redirect based on role
                if ($roles == 1 && $role == 1) {
                   $_SESSION['redirectlogin'] = '../../html/admin/';
+                  $_SESSION['hook'] = 1;
                   header('Location: ../../html/admin/');
                   exit();
                } else if ($roles == 2 && $role == 2) {
                   $_SESSION['redirectlogin'] = '../../html/guru/';
+                  $_SESSION['hook'] = 1;
                   header('Location: ../../html/guru/');
                   exit();
                } else if ($roles == 3 && $role == 3) {
                   $_SESSION['redirectlogin'] = '../../html/siswa/';
+                  $_SESSION['hook'] = 1;
                   header('Location: ../../html/siswa/');
                   exit();
                }
                // Redirect back to login page if login failed
-               header('Location: ../../html/login/login.php');
+               $_SESSION['failed'] = 1;
+               header('Location: ../../login.php');
                exit();
             }
          } else {
             // Redirect back to login page if login failed
-            header('Location: ../../html/login/login.php');
+            $_SESSION['failed'] = 1;
+            header('Location: ../../login.php');
             exit();
          }
          // Redirect back to login page if login failed
-         header('Location: ../../html/login/login.php');
+         $_SESSION['failed'] = 1;
+         header('Location: ../../login.php');
          exit();
       }
 
@@ -83,5 +88,5 @@ if (isset($_POST['login'])) {
 }
 
 // Redirect back to login page if login failed
-header('Location: ../../html/login/login.php');
+header('Location: ../../login.php');
 exit();

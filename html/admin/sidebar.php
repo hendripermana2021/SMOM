@@ -1,3 +1,7 @@
+<?php
+$menu = $_GET['open'];
+?>
+
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
     <a href="index.php" class="app-brand-link">
@@ -63,61 +67,61 @@
   <ul class="menu-inner py-1">
     <!-- Dashboard -->
     <li class="menu-item active">
-      <a href="index.php" class="menu-link">
+      <a href="index.php" class="menu-link ">
         <i class="menu-icon tf-icons bx bx-home-circle"></i>
         <div data-i18n="Dashboard Admin">Dashboard Admin</div>
       </a>
     </li>
 
     <!-- Layouts -->
-    <li class="menu-item">
+    <li class="menu-item <?= $menu == 'user' || $menu == 'kelas' || $menu == 'mapel' || $menu == 'guru' || $menu == 'siswa' ? 'open active' : '' ?>">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-layout"></i>
         <div data-i18n="Management">Management</div>
       </a>
 
       <ul class="menu-sub">
-        <li class="menu-item">
-          <a href="../admin/tableuser.php" class="menu-link">
+        <li class="menu-item <?= $menu == 'user' ? 'active' : '' ?>">
+          <a href="../admin/tableuser.php?open=user" class="menu-link">
             <div data-i18n="User">User</div>
           </a>
         </li>
-        <li class="menu-item">
-          <a href="tablekelas.php" class="menu-link">
+        <li class="menu-item <?= $menu == 'kelas' ? 'active' : '' ?>">
+          <a href="tablekelas.php?open=kelas" class="menu-link">
             <div data-i18n="Kelas">Kelas</div>
           </a>
         </li>
-        <li class="menu-item">
-          <a href="tablemapel.php" class="menu-link">
+        <li class="menu-item <?= $menu == 'mapel' ? 'active' : '' ?>">
+          <a href="tablemapel.php?open=mapel" class="menu-link">
             <div data-i18n="Mata Pelajaran">Mata Pelajaran</div>
           </a>
         </li>
-        <li class="menu-item">
-          <a href="tableguru.php" class="menu-link">
+        <li class="menu-item <?= $menu == 'guru' ? 'active' : '' ?>">
+          <a href="tableguru.php?open=guru" class="menu-link">
             <div data-i18n="Guru">Guru</div>
           </a>
         </li>
-        <li class="menu-item">
-          <a href="tablesiswa.php" class="menu-link">
+        <li class="menu-item <?= $menu == 'siswa' ? 'active' : '' ?>">
+          <a href="tablesiswa.php?open=siswa" class="menu-link">
             <div data-i18n="Siswa">Siswa</div>
           </a>
         </li>
       </ul>
     </li>
-    <li class="menu-item">
+    <li class="menu-item <?= $menu == 'test' || $menu == 'modul' ? 'open active' : '' ?>">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-layout"></i>
         <div data-i18n="Property Learning">Property Learning</div>
       </a>
 
       <ul class="menu-sub">
-        <li class="menu-item">
-          <a href="tablemodul.php" class="menu-link">
+        <li class="menu-item <?= $menu == 'modul' ? 'active' : '' ?>">
+          <a href="tablemodul.php?open=modul" class="menu-link">
             <div data-i18n="Module">Module</div>
           </a>
         </li>
-        <li class="menu-item">
-          <a href="tabletest.php" class="menu-link">
+        <li class="menu-item <?= $menu == 'test' ? 'active' : '' ?>">
+          <a href="tabletest.php?open=test" class="menu-link">
             <div data-i18n="Test">Test</div>
           </a>
         </li>
