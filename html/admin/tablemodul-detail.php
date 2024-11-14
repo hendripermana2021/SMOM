@@ -66,8 +66,18 @@ $totaldata = mysqli_num_rows($data);
                       <li class="breadcrumb-item active">Modul Content</li>
                     </ol>
                   </div>
+                  <?php
+                  $dataModul = tampildata("SELECT * from tbl_moduls where id=$id");
+                  $type_modul = $dataModul[0]['type_modul'];
+                  if ($type_modul == 0) {
+                    $typeView = "viewmodul.php?id=" . $dataModul[0]['id'];
+                  } else {
+                    $typeView = "viewmodul-pdf.php?id=" . $dataModul[0]['filePdf'];
+                  }
+                  ?>
                   <div class="col-lg-6 col-md-6">
                     <div class="text-end mb-4">
+                      <a class="btn btn-primary pb-2" href="<?= $typeView ?>"> View Modul</a>
                       <button
                         type="button"
                         class="btn btn-primary pb-2"
@@ -98,20 +108,8 @@ $totaldata = mysqli_num_rows($data);
                           <td><?= $row['section'] ?></td>
                           <td><?= $row['position'] ?></td>
                           <td class="text-center col-2">
-                            <button
-                              type="button"
-                              class="btn btn-primary"
-                              data-bs-toggle="modal"
-                              data-bs-target="#show<?= $row['id'] ?>">
-                              Lihat
-                            </button>
-                            <button
-                              type="button"
-                              class="btn btn-warning"
-                              data-bs-toggle="modal"
-                              data-bs-target="#updateModal<?= $row['id'] ?>">
-                              Edit
-                            </button>
+                            <a href="./showcontentmodul.php?id=<?= $id ?>&id_content=<?= $row['id'] ?>" class="btn btn-primary" role="button">Lihat</a>
+                            <a href="./editcontentmodul.php?id=<?= $id ?>&id_content=<?= $row['id'] ?>" class="btn btn-warning" role="button">Edit</a>
                             <button
                               type="button"
                               class="btn btn-danger"
@@ -121,148 +119,6 @@ $totaldata = mysqli_num_rows($data);
                             </button>
                           </td>
                         </tr>
-
-                        <!-- Show Modal -->
-                        <div class="modal fade" id="show<?= $row['id'] ?>" tabindex="-1" aria-hidden="true">
-                          <div class="modal-dialog modal-fullscreen" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title">Lihat Content</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                              </div>
-
-                              <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
-                                <div class="row mb-3">
-                                  <label class="col-sm-1 col-form-label">Section</label>
-                                  <div class="col-sm-11">
-                                    <p><?= $row['section'] ?></p>
-                                  </div>
-                                </div>
-                                <div class="row mb-3">
-                                  <label class="col-sm-2 col-form-label">Content</label>
-                                  <div class="col-lg-12 col-md-12">
-                                    <?= $row['content'] ?>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- Update Modal -->
-                        <div class="modal fade" id="updateModal<?= $row['id'] ?>" tabindex="-1" aria-hidden="true">
-                          <div class="modal-dialog modal-fullscreen" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title">Update Content</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                              </div>
-                              <form method="POST" id="update-content<?= $row['id'] ?>" action="../../controller/updatecontentmodul.php">
-                                <input type="hidden" name="control" value="update">
-                                <input type="hidden" name="content" id="content<?= $row['id'] ?>">
-                                <input type="hidden" name="id_content" value="<?= $row['id'] ?>">
-                                <input type="hidden" name="id_modul" value="<?= $id ?>">
-                                <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
-                                  <div class="row mb-3">
-                                    <label class="col-sm-1 col-form-label">Section</label>
-                                    <div class="col-sm-11">
-                                      <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-book"></i></span>
-                                        <input type="text" class="form-control" name="section" id="update-section<?= $row['id'] ?>" value="<?= $row['section'] ?>" required />
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="row mb-3">
-                                    <label class="col-sm-1 col-form-label">Position</label>
-                                    <div class="col-sm-11">
-                                      <select name="position" id="position" class="form-select" required>
-                                        <script>
-                                          for (let i = 1; i <= 30; i++) {
-                                            const selected = (<?= $row['position'] ?> == i) ? 'selected' : '';
-                                            document.write(`<option value="${i}" ${selected}>${i}</option>`);
-                                          }
-                                        </script>
-                                      </select>
-                                    </div>
-                                  </div>
-                                  <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Content</label>
-                                    <div class="col-lg-12 col-md-12">
-                                      <div id="toolbar-container-update<?= $row['id'] ?>">
-                                        <!-- Quill Toolbar Buttons Here -->
-                                        <span class="ql-formats">
-                                          <select class="ql-font"></select>
-                                          <select class="ql-size"></select>
-                                        </span>
-                                        <span class="ql-formats">
-                                          <button class="ql-bold"></button>
-                                          <button class="ql-italic"></button>
-                                          <button class="ql-underline"></button>
-                                          <button class="ql-strike"></button>
-                                        </span>
-                                        <span class="ql-formats">
-                                          <select class="ql-color"></select>
-                                          <select class="ql-background"></select>
-                                        </span>
-                                        <span class="ql-formats">
-                                          <button class="ql-script" value="sub"></button>
-                                          <button class="ql-script" value="super"></button>
-                                        </span>
-                                        <span class="ql-formats">
-                                          <button class="ql-header" value="1"></button>
-                                          <button class="ql-header" value="2"></button>
-                                          <button class="ql-blockquote"></button>
-                                          <button class="ql-code-block"></button>
-                                        </span>
-                                        <span class="ql-formats">
-                                          <button class="ql-list" value="ordered"></button>
-                                          <button class="ql-list" value="bullet"></button>
-                                          <button class="ql-indent" value="-1"></button>
-                                          <button class="ql-indent" value="+1"></button>
-                                        </span>
-                                        <span class="ql-formats">
-                                          <button class="ql-direction" value="rtl"></button>
-                                          <select class="ql-align"></select>
-                                        </span>
-                                        <span class="ql-formats">
-                                          <button class="ql-link"></button>
-                                          <button class="ql-image"></button>
-                                          <button class="ql-video"></button>
-                                          <button class="ql-formula"></button>
-                                        </span>
-                                        <span class="ql-formats">
-                                          <button class="ql-clean"></button>
-                                        </span>
-                                      </div>
-                                      <div id="editor-update<?= $row['id'] ?>" style="height: 1000px;">
-                                        <?= $row['content'] ?>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                                  <button type="submit" name="prosesmodul" class="btn btn-primary">Save changes</button>
-                                </div>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-
-                        <script>
-                          const quillUpdate<?= $row['id'] ?> = new Quill('#editor-update<?= $row['id'] ?>', {
-                            modules: {
-                              syntax: true,
-                              toolbar: '#toolbar-container-update<?= $row['id'] ?>',
-                            },
-                            placeholder: 'Compose an epic...',
-                            theme: 'snow',
-                          });
-
-                          document.querySelector('#update-content<?= $row['id'] ?>').onsubmit = function() {
-                            document.querySelector('#content<?= $row['id'] ?>').value = quillUpdate<?= $row['id'] ?>.root.innerHTML;
-                          };
-                        </script>
 
                         <!-- Modal Delete -->
                         <div class="modal fade" id="delete<?= $row['id'] ?>" tabindex="-1" aria-hidden="true">

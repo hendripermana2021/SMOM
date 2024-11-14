@@ -1,19 +1,26 @@
 <IfModule mod_rewrite.c>
-RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^(.*)$ $1.php
-Options -Indexes
-ErrorDocument 403 http://192.168.1.16
+    RewriteEngine on
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteRule ^(.*)$ $1.php
+    Options -Indexes
+    ErrorDocument 403 http://192.168.1.16
 
+    # Redirect to HTTP when accessing via IP address
+    RewriteCond %{HTTP_HOST} ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$
+    RewriteCond %{HTTPS} on
+    RewriteRule ^ http://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+<IfModule mod_headers.c>
+    # Enable CORS
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+</IfModule>
+
+# PHP configuration
 php_value display_errors 0
 php_value memory_limit 512M
 php_value session.gc_maxlifetime 21600
 php_value session.cookie_lifetime 21600
-
-
-# Redirect to HTTP when accessing via IP address
-RewriteCond %{HTTP_HOST} ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$
-RewriteCond %{HTTPS} on
-RewriteRule ^ http://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-</IfModule>

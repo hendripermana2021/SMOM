@@ -1,5 +1,15 @@
 <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
 <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+
+<script src="js/bootstrap.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/jquery.animateNumber.min.js"></script>
+<script src="js/jquery.waypoints.min.js"></script>
+<script src="js/jquery.fancybox.min.js"></script>
+<script src="js/jquery.sticky.js"></script>
+<script src="js/aos.js"></script>
+<script src="js/custom.js"></script>
+
 <script src="../assets/js/config.js"></script>
 <script src="../assets/vendor/js/helpers.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
